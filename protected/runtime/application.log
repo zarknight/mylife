@@ -1,0 +1,2 @@
+2013/05/20 03:50:26 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mylife.tb_user' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `tb_user`.
+in C:\servers\xampp\htdocs\mylife\index.php (13)
