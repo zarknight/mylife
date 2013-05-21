@@ -3,7 +3,13 @@ create table tbl_user (
   id integer not null primary key AUTO_INCREMENT,
   username varchar(128) not null,
   password varchar(128) not null,
-  email varchar(128) not null
+  email varchar(128) not null,
+  firstname varchar(128),
+  lastname varchar(128),
+  birthday date,
+  photo varchar(128),
+  create_date timestamp,
+  update_date timestamp
 );
 
 insert into tbl_user (username, password, email) values ('test1', 'pass1', 'test1@example.com');
@@ -28,20 +34,14 @@ create table tbl_submission (
   eventid integer,
   title varchar(128),
   content text,
+  description text,
+  status int(1),
+  submission_date timestamp,
   create_date timestamp,
   update_date timestamp
 );
 
 create table tbl_submission_contact (
   contactid integer not null,
-  messageid integer not null
-);
-
-create table tbl_event (
-  id integer not null primary key AUTO_INCREMENT,
-  eventname varchar(128),
-  eventdate date,
-  description varchar(256),
-  create_date timestamp,
-  update_date timestamp
+  submissionid integer not null
 );
