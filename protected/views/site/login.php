@@ -9,45 +9,57 @@ $this->breadcrumbs=array(
 );
 ?>
 
-<h1>Login</h1>
 
-<p>Please fill out the following form with your login credentials:</p>
+<div class="row-fluid">
+	<div class="well span5 center login-box" >
 
-<div class="form">
-<?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'login-form',
-	'enableClientValidation'=>true,
-	'clientOptions'=>array(
-		'validateOnSubmit'=>true,
-	),
-)); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+		<div class="alert alert-info">
+			<b>Login:</b><br/>
+			Please log in with your username and password:
+		</div>
+		
+		<div class="form">
+		<?php /** @var BootActiveForm $form */
+		$form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
+			'id'=>'loginForm',
+			'type'=>'search',
+			'htmlOptions'=>array('class'=>'well'),
+		)); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'username'); ?>
-		<?php echo $form->textField($model,'username'); ?>
-		<?php echo $form->error($model,'username'); ?>
-	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'password'); ?>
-		<?php echo $form->passwordField($model,'password'); ?>
-		<?php echo $form->error($model,'password'); ?>
-		<p class="hint">
-			Hint: You may login with <kbd>demo</kbd>/<kbd>demo</kbd> or <kbd>admin</kbd>/<kbd>admin</kbd>.
-		</p>
-	</div>
+			<div class="formItem">
+				<?php echo $form->textFieldRow($model, 'username', array('class'=>'input-medium', 'prepend'=>'<i class="icon-user"></i>')); ?>
+				<?php echo $form->error($model,'username'); ?>
+			</div>
+				
+			<div class="formItem">
+				<?php echo $form->passwordFieldRow($model, 'password', array('class'=>'input-medium', 'prepend'=>'<i class="icon-lock"></i>')); ?>
+				<?php echo $form->error($model,'password'); ?>
+			</div>
 
-	<div class="row rememberMe">
-		<?php echo $form->checkBox($model,'rememberMe'); ?>
-		<?php echo $form->label($model,'rememberMe'); ?>
-		<?php echo $form->error($model,'rememberMe'); ?>
-	</div>
+			<div class="formItem">
+				<?php echo $form->checkboxRow($model, 'rememberMe'); ?>
 
-	<div class="row buttons">
-		<?php echo CHtml::submitButton('Login'); ?>
-	</div>
+				<?php echo $form->error($model,'rememberMe'); ?>
+			</div>
 
-<?php $this->endWidget(); ?>
-</div><!-- form -->
+			<div class="formItem" >
+				<div class="span6" style="float:none; display:inline-block; margin-top:20px">
+				<?php $this->widget('bootstrap.widgets.TbButton', array(
+					'buttonType'=>'submit',
+					'label'=>'Login',
+					'type'=>'primary', 
+					'htmlOptions'=>array('style'=>'width:100%'),
+					
+				)); ?>
+				</div>
+			</div>
+			
+		<?php $this->endWidget(); ?>
+		</div><!-- form -->
+
+		<a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=site/register">Register</a>
+
+	</div>	
+</div>

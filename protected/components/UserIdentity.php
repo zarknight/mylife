@@ -17,7 +17,19 @@ class UserIdentity extends CUserIdentity
 	 */
 	public function authenticate()
 	{
-		$users=array(
+		$criteria=new CDbCriteria;     
+		$criteria->compare('username',$this->username);      
+		$criteria->compare('password',$this->password);		
+		$data = new CActiveDataProvider('User', array( 'criteria'=>$criteria, )); 
+		
+		if($data->getItemCount()>0)
+			$this->errorCode=self::ERROR_NONE;
+		else
+			$this->errorCode=self::ERROR_USERNAME_INVALID;
+		
+		return !$this->errorCode;
+		
+	/*	$users=array(
 			// username => password
 			'demo'=>'demo',
 			'admin'=>'admin',
@@ -28,6 +40,33 @@ class UserIdentity extends CUserIdentity
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
 		else
 			$this->errorCode=self::ERROR_NONE;
-		return !$this->errorCode;
+		return !$this->errorCode; */
 	}
+	
+	public function register()
+	{
+		$user=new User;
+		$user->username = $this->username;
+		$user->password = $this->password;
+		
+		echo "insert".$user->username."|".$user->password; 
+		if($user->save()>0)
+			echo "succ";
+		else
+			echo "fail";
+	
+	return true;
+	}
+	
+	public function checkUserName(){
+		$criteria=new CDbCriteria;     
+		$criteria->compare('username',$this->username);	
+		$data = new CActiveDataProvider('User', array( 'criteria'=>$criteria, )); 
+		
+		if($data->getItemCount()>0)
+			return false;
+		
+		return true;
+	}
+	
 }

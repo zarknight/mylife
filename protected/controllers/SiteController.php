@@ -2,6 +2,8 @@
 
 class SiteController extends Controller
 {
+	public $defaultAction='login';  
+	
 	/**
 	 * Declares class-based actions.
 	 */
@@ -91,8 +93,11 @@ class SiteController extends Controller
 		{
 			$model->attributes=$_POST['LoginForm'];
 			// validate user input and redirect to the previous page if valid
-			if($model->validate() && $model->login())
-				$this->redirect(Yii::app()->user->returnUrl);
+			if($model->validate() && $model->login()){
+				$this->render("index");
+				return;
+			}
+				//$this->redirect(Yii::app()->user->returnUrl);
 		}
 		// display the login form
 		$this->render('login',array('model'=>$model));
@@ -106,4 +111,18 @@ class SiteController extends Controller
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}
+	
+	public function actionRegister()
+	{
+		$model=new RegisterForm("register");
+		if(isset($_POST['RegisterForm']))
+		{
+			$model->attributes=$_POST['RegisterForm'];
+			if($model->validate())
+				$model->register();
+			
+		}
+		$this->render('register',array('model'=>$model));
+	}
+	
 }
