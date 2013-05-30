@@ -45,7 +45,7 @@ body {
 </style>
 <body>
 
-<div class="container-fluid" id="page">
+<div class="container-fluid" >
 
 	<div class="row-fluid">
 		<div class="span12 center login-header">
@@ -57,7 +57,9 @@ body {
 		<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
 	</div><!-- header -->
 
+	
 	<div id="mainmenu">
+	
 		<?php
 			$this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
