@@ -1496,3 +1496,91 @@ Stack trace:
 #15 {main}
 REQUEST_URI=/mylifeBSP/
 ---
+2013/05/31 04:03:21 [error] [php] Use of undefined constant this - assumed 'this' (C:\servers\xampp\htdocs\mylife\protected\views\site\login.php:59)
+Stack trace:
+#0 C:\servers\xampp\htdocs\yii\framework\web\CController.php(869): SiteController->renderFile()
+#1 C:\servers\xampp\htdocs\yii\framework\web\CController.php(782): SiteController->renderPartial()
+#2 C:\servers\xampp\htdocs\mylife\protected\controllers\SiteController.php(103): SiteController->render()
+#3 C:\servers\xampp\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionLogin()
+#4 C:\servers\xampp\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams()
+#5 C:\servers\xampp\htdocs\yii\framework\web\CController.php(286): SiteController->runAction()
+#6 C:\servers\xampp\htdocs\yii\framework\web\CController.php(265): SiteController->runActionWithFilters()
+#7 C:\servers\xampp\htdocs\yii\framework\web\CWebApplication.php(282): SiteController->run()
+#8 C:\servers\xampp\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#9 C:\servers\xampp\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#10 C:\servers\xampp\htdocs\mylife\index.php(13): CWebApplication->run()
+REQUEST_URI=/mylife/
+in C:\servers\xampp\htdocs\mylife\protected\views\site\login.php (59)
+in C:\servers\xampp\htdocs\mylife\protected\controllers\SiteController.php (103)
+in C:\servers\xampp\htdocs\mylife\index.php (13)
+2013/05/31 04:33:07 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "app".' in C:\servers\xampp\htdocs\yii\framework\web\CController.php:483
+Stack trace:
+#0 C:\servers\xampp\htdocs\yii\framework\web\CController.php(270): CController->missingAction('app')
+#1 C:\servers\xampp\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('app')
+#2 C:\servers\xampp\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('site/app/index')
+#3 C:\servers\xampp\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#4 C:\servers\xampp\htdocs\mylife\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/mylife/index.php/site/app/index
+HTTP_REFERER=http://localhost/mylife/index.php/site/login
+---
+2013/05/31 04:43:14 [error] [php] strpos() expects parameter 1 to be string, array given (C:\servers\xampp\htdocs\yii\framework\web\CController.php:963)
+Stack trace:
+#0 C:\servers\xampp\htdocs\yii\framework\web\CBaseController.php(126): require()
+#1 C:\servers\xampp\htdocs\yii\framework\web\CBaseController.php(95): AppController->renderInternal()
+#2 C:\servers\xampp\htdocs\yii\framework\web\CController.php(869): AppController->renderFile()
+#3 C:\servers\xampp\htdocs\yii\framework\web\CController.php(782): AppController->renderPartial()
+#4 C:\servers\xampp\htdocs\mylife\protected\controllers\AppController.php(8): AppController->render()
+#5 C:\servers\xampp\htdocs\yii\framework\web\actions\CInlineAction.php(49): AppController->actionIndex()
+#6 C:\servers\xampp\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams()
+#7 C:\servers\xampp\htdocs\yii\framework\web\CController.php(286): AppController->runAction()
+#8 C:\servers\xampp\htdocs\yii\framework\web\CController.php(265): AppController->runActionWithFilters()
+#9 C:\servers\xampp\htdocs\yii\framework\web\CWebApplication.php(282): AppController->run()
+#10 C:\servers\xampp\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#11 C:\servers\xampp\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#12 C:\servers\xampp\htdocs\mylife\index.php(13): CWebApplication->run()
+REQUEST_URI=/mylife/index.php/app/index
+in C:\servers\xampp\htdocs\mylife\protected\views\app\index.php (7)
+in C:\servers\xampp\htdocs\mylife\protected\controllers\AppController.php (8)
+in C:\servers\xampp\htdocs\mylife\index.php (13)
+2013/05/31 04:43:17 [error] [php] strpos() expects parameter 1 to be string, array given (C:\servers\xampp\htdocs\yii\framework\web\CController.php:963)
+Stack trace:
+#0 C:\servers\xampp\htdocs\yii\framework\web\CBaseController.php(126): require()
+#1 C:\servers\xampp\htdocs\yii\framework\web\CBaseController.php(95): AppController->renderInternal()
+#2 C:\servers\xampp\htdocs\yii\framework\web\CController.php(869): AppController->renderFile()
+#3 C:\servers\xampp\htdocs\yii\framework\web\CController.php(782): AppController->renderPartial()
+#4 C:\servers\xampp\htdocs\mylife\protected\controllers\AppController.php(8): AppController->render()
+#5 C:\servers\xampp\htdocs\yii\framework\web\actions\CInlineAction.php(49): AppController->actionIndex()
+#6 C:\servers\xampp\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams()
+#7 C:\servers\xampp\htdocs\yii\framework\web\CController.php(286): AppController->runAction()
+#8 C:\servers\xampp\htdocs\yii\framework\web\CController.php(265): AppController->runActionWithFilters()
+#9 C:\servers\xampp\htdocs\yii\framework\web\CWebApplication.php(282): AppController->run()
+#10 C:\servers\xampp\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#11 C:\servers\xampp\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#12 C:\servers\xampp\htdocs\mylife\index.php(13): CWebApplication->run()
+REQUEST_URI=/mylife/index.php/app/index
+in C:\servers\xampp\htdocs\mylife\protected\views\app\index.php (7)
+in C:\servers\xampp\htdocs\mylife\protected\controllers\AppController.php (8)
+in C:\servers\xampp\htdocs\mylife\index.php (13)
+2013/05/31 05:18:43 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "js".' in C:\servers\xampp\htdocs\yii\framework\web\CController.php:483
+Stack trace:
+#0 C:\servers\xampp\htdocs\yii\framework\web\CController.php(270): CController->missingAction('js')
+#1 C:\servers\xampp\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('js')
+#2 C:\servers\xampp\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('app/js/main/par...')
+#3 C:\servers\xampp\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#4 C:\servers\xampp\htdocs\mylife\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/mylife/index.php/app/js/main/partials/dashboard.html
+HTTP_REFERER=http://localhost/mylife/index.php/app/index
+---
+2013/05/31 06:03:15 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "js".' in C:\servers\xampp\htdocs\yii\framework\web\CController.php:483
+Stack trace:
+#0 C:\servers\xampp\htdocs\yii\framework\web\CController.php(270): CController->missingAction('js')
+#1 C:\servers\xampp\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('js')
+#2 C:\servers\xampp\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('app/js/main/par...')
+#3 C:\servers\xampp\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#4 C:\servers\xampp\htdocs\mylife\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/mylife/index.php/app/js/main/partials/profile.html
+HTTP_REFERER=http://localhost/mylife/index.php/app/index
+---

@@ -1,0 +1,17 @@
+.login-header, .login-box {
+  float:none!important; 
+  margin-left:auto!important; 
+  margin-right:auto!important; 
+  text-align:center;
+}
+
+.alert-info {
+    background-color: #EDEBE1;
+    border-color: #E0D9CB;
+    color: #817B58;
+}
+
+.formItem {
+  margin-bottom:10px;
+  overflow:hidden;
+}

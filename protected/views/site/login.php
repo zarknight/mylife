@@ -4,15 +4,10 @@
 /* @var $form CActiveForm  */
 
 $this->pageTitle=Yii::app()->name . ' - Login';
-$this->breadcrumbs=array(
-	'Login',
-);
 ?>
-
 
 <div class="row-fluid">
 	<div class="well span5 center login-box" >
-
 
 		<div class="alert alert-info">
 			<b>Login:</b><br/>
@@ -20,13 +15,13 @@ $this->breadcrumbs=array(
 		</div>
 		
 		<div class="form">
-		<?php /** @var BootActiveForm $form */
-		$form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
-			'id'=>'loginForm',
-			'type'=>'search',
-			'htmlOptions'=>array('class'=>'well'),
-		)); ?>
-
+			<?php /** @var BootActiveForm $form */
+			$form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
+				'id'=>'loginForm',
+				'type'=>'search',
+				'htmlOptions'=>array('class'=>'well'),
+			)); 
+			?>
 
 			<div class="formItem">
 				<?php echo $form->textFieldRow($model, 'username', array('class'=>'input-medium', 'prepend'=>'<i class="icon-user"></i>')); ?>
@@ -46,20 +41,20 @@ $this->breadcrumbs=array(
 
 			<div class="formItem" >
 				<div class="span6" style="float:none; display:inline-block; margin-top:20px">
-				<?php $this->widget('bootstrap.widgets.TbButton', array(
+				<?php 
+				$this->widget('bootstrap.widgets.TbButton', array(
 					'buttonType'=>'submit',
 					'label'=>'Login',
 					'type'=>'primary', 
 					'htmlOptions'=>array('style'=>'width:100%'),
-					
-				)); ?>
+				));
+				?>
 				</div>
 			</div>
-			
-		<?php $this->endWidget(); ?>
-		</div><!-- form -->
+			<?php $this->endWidget(); ?>
+		</div>
 
-		<a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=site/register">Register</a>
+		<a href="<?php echo $this->createUrl('site/register')?>">Register</a>
 
 	</div>	
 </div>
