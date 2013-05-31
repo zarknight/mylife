@@ -3,6 +3,13 @@
   margin-left:auto!important; 
   margin-right:auto!important; 
   text-align:center;
+  
+}
+
+.login-header {
+	height:120px;
+	padding-top:30px;
+	color:#317eac;
 }
 
 .alert-info {
