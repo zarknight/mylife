@@ -6,6 +6,7 @@
 $this->pageTitle=Yii::app()->name . ' - Register';
 ?>
 
+
 <div class="row-fluid">
 	<div class="well span5 center login-box" >
 		
@@ -38,6 +39,11 @@ $this->pageTitle=Yii::app()->name . ' - Register';
 				<?php echo $form->error($model,'password2'); ?>
 			</div>
 
+			<div class="formItem">
+				<?php  if($success) echo "Register success! Please go to Login page ";
+				?>
+			</div>
+			
 			<div class="formItem" >
 				<div class="span6" style="float:none; display:inline-block; margin-top:20px">
 				<?php

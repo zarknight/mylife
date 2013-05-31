@@ -112,16 +112,18 @@ class SiteController extends Controller
 	}
 	
 	public function actionRegister()
-	{
+	{	
+		$success = FALSE;
 		$model=new RegisterForm("register");
 		if(isset($_POST['RegisterForm']))
 		{
 			$model->attributes=$_POST['RegisterForm'];
-			if($model->validate())
-				$model->register();
-			
+			if($model->validate() && $model->register()) {
+				$model = new RegisterForm;
+				$success = TRUE;
+			}			
 		}
-		$this->render('register',array('model'=>$model));
+		$this->render('register',array('model'=>$model, 'success'=>$success));
 	}
 	
 }
