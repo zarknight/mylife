@@ -49,13 +49,10 @@ class UserIdentity extends CUserIdentity
 		$user->username = $this->username;
 		$user->password = $this->password;
 		
-		echo "insert".$user->username."|".$user->password; 
 		if($user->save()>0)
-			echo "succ";
-		else
-			echo "fail";
-	
-	return true;
+			return true;
+		
+		return false;
 	}
 	
 	public function checkUserName(){
