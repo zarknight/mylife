@@ -10,17 +10,35 @@
 		</div>
 	</div>
 </div>
+     
 <div class="container-fluid" ng-controller="MainCtrl">
+	<div class="row-fliud">
+		<div class="span2">
+			<div class="well sidebar-nav" >	 
+				 <ul class="nav nav-list" id="navList">
+					<li class="active"><a href="#/dashboard">Dashboard</a></li>
+					<li><a href="#/contacts">My Contacts</a></li>
+					<li><a href="#/profile">My Profile</a></li>
+					<li class="divider"></li>
+					<li><a href="<?php echo $this->createUrl('site/logout')?>">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+		<script>
+			$("#navList").on('click', function(event){
+				$(this).children().each(function(){
+					$(this).removeClass("active");					
+				})
+				$(event.target).parent().addClass("active");
+			})			
+		</script>
 
-  <div class="btn-toolbar">
-    <a class="btn" href="#/dashboard">Dashboard</a>
-    <a class="btn" href="#/profile">My Profile</a>
-    <a class="btn" href="#/contacts">Contacts</a>
-    <a class="btn" href="<?php echo $this->createUrl('site/logout')?>">Logout</a>
-  <div>
-
-  <div ng-view></div>
-
+			
+		<div class="span10"> 
+			<div ng-view></div>
+		</div>
+		 
+	</div>
 </div>
 
 <!-- ***************** app scripts start ***************** -->

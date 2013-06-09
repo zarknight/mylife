@@ -43,3 +43,7 @@
 	display:block;
 }
 
+.sidebar-nav {
+	padding:0;
+	padding-bottom:20px;
+}

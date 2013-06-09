@@ -13,6 +13,7 @@
     var WEB_ROOT = '<?php echo Yii::app()->request->baseUrl; ?>';
   </script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/angular/angular.min.js"></script>
+	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery/jquery-1.9.1.min.js"></script>
 </head>
 <body>
 	<?php echo $content; ?>
