@@ -7,6 +7,7 @@
  */
 class UserIdentity extends CUserIdentity
 {
+	private $_id="dddd";
 	/**
 	 * Authenticates a user.
 	 * The example implementation makes sure if the username and password
@@ -22,8 +23,10 @@ class UserIdentity extends CUserIdentity
 		$criteria->compare('password',$this->password);		
 		$data = new CActiveDataProvider('User', array( 'criteria'=>$criteria, )); 
 		
-		if($data->getItemCount()>0)
+		if($data->getItemCount()>0){
 			$this->errorCode=self::ERROR_NONE;
+			$this->_id = $data->getData()[0]['id'];
+		}
 		else
 			$this->errorCode=self::ERROR_USERNAME_INVALID;
 		
@@ -66,4 +69,7 @@ class UserIdentity extends CUserIdentity
 		return true;
 	}
 	
+	public function getId() {
+		return $this->_id;
+	}
 }

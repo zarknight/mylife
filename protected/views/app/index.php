@@ -16,7 +16,8 @@
 		<div class="span2">
 			<div class="well sidebar-nav" >	 
 				 <ul class="nav nav-list" id="navList">
-					<li class="active"><a href="#/dashboard">Dashboard</a></li>
+					<li><a href="#/dashboard">Dashboard</a></li>
+					<li><a href="#">My Messages</a></li>
 					<li><a href="#/contacts">My Contacts</a></li>
 					<li><a href="#/profile">My Profile</a></li>
 					<li class="divider"></li>
@@ -35,7 +36,7 @@
 
 			
 		<div class="span10"> 
-			<div ng-view></div>
+			<div class="" ng-view></div>
 		</div>
 		 
 	</div>
