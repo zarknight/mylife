@@ -13,11 +13,11 @@
      
 <div class="container-fluid" ng-controller="MainCtrl">
 	<div class="row-fliud">
-		<div class="span2">
-			<div class="well sidebar-nav" >	 
+		<div  class="span2">
+			<div id="nav" class="well sidebar-nav" >	 
 				 <ul class="nav nav-list" id="navList">
 					<li><a href="#/dashboard">Dashboard</a></li>
-					<li><a href="#">My Messages</a></li>
+					<li><a href="#/messages">My Messages</a></li>
 					<li><a href="#/contacts">My Contacts</a></li>
 					<li><a href="#/profile">My Profile</a></li>
 					<li class="divider"></li>
@@ -26,6 +26,16 @@
 			</div>
 		</div>
 		<script>
+		
+			var urls = window.location.href.split("#");
+			if(urls.length>1) {
+				$('*[href="#'+urls[1]+'"]').parent().addClass("active");
+			}
+			else {
+				$('*[href="#/dashboard"]').parent().addClass("active");
+			}
+				
+			
 			$("#navList").on('click', function(event){
 				$(this).children().each(function(){
 					$(this).removeClass("active");					
