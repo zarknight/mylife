@@ -12,13 +12,22 @@ function ProfileCtrl($scope) {
 
 }
 
-function MessageListCtrl($scope, $routeParams) {
+function MessageListCtrl($scope, $http, $routeParams) {
 	$scope.type = (typeof $routeParams.type != "undefined")? ($routeParams.type):1;
 	
-		
+	
 	$scope.newMessage = function() {
 		window.location.href = "#/createMessage?type=create";
 	}
+	
+	$scope.reloadMessage = function(){
+		$http.get(WEB_ROOT+'/index.php/submission/index?type='+$scope.type).success(function(data) {
+				$scope.data = data;
+			});
+	
+	}
+	
+	$scope.reloadMessage();
 }
 var editorSetting = {
 	langType: 'en',
@@ -135,7 +144,8 @@ function ContactListCtrl($scope, $http) {
 		
 		var value = $(cells[2]).text();
 		$(cells[2]).children()[0].style.display="none";
-		$('<select id="editRL" class="span2" ></select>').html($("#newRL").html()).appendTo(cells[2]);
+		$('<select id="editRL" class="span2" ></select>').html($("#newRL").html()).appendTo(cells[2])
+														.find('option[value="'+value+'"]').attr("selected", true);
 		
 		$(cells[4]).children()[0].style.display="none";
 		$(cells[4]).children()[1].style.display="";

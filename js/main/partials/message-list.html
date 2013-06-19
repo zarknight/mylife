@@ -1,15 +1,39 @@
 <div class="well" style="padding-top:0;padding-bottom:0;">
-<h3>My Messages</h3>
+	<div style="display:inline-block;"><h3>My Messages</h3></div>
+	<div style="float:right; margin-top:15px" >
+		<button id="newMessageBtn" class="btn" type="button" ng-click="newMessage()">+</button>
+	</div>
 </div>
 
-<p>
-<button id="newMessageBtn" class="btn btn-primary" type="button" ng-click="newMessage()">New Message</button>
-</p>
+<div style="border-bottom:1px solid #eeeeee">
+	<select id="messageType" ng-model="type" ng-change="reloadMessage()">
+		<option value="1">Sent</option>
+		<option value="2">Pending</option>
+		<option value="3">Draft</option>
+	</select>
+</div>
 
-<hr/>
-
-<select id="messageType" ng-model="type">
-	<option value="1">Sent</option>
-	<option value="2">Pending</option>
-	<option value="3">Draft</option>
-</select>
+<table class="table">
+	<colgroup>
+		<col width="25%">
+		<col width="45%">
+		<col width="15%">
+		<col width="15%">
+	</colgroup>
+	<thead>
+		<tr>
+			<th>To</th>
+			<th>Title</th>
+			<th>Date</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="d in data" id="row_{{d.id}}">
+		  <td><div></div></td>
+		  <td><div>{{d.title}}</div></td>
+		  <td><div>{{d.create_date}}</div></td>
+		  <td><a>edit</a></td>
+		</tr>
+	</tbody>
+</table>
