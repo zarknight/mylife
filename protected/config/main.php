@@ -101,8 +101,8 @@ return array(
       ),
     ),
 		'bootstrap'=>array(
-            'class'=>'bootstrap.components.Bootstrap',
-        ),
+        'class'=>'bootstrap.components.Bootstrap',
+    ),
 
 	),
 

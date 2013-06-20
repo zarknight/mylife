@@ -6,7 +6,6 @@
 $this->pageTitle=Yii::app()->name . ' - Register';
 ?>
 
-
 <div class="row-fluid">
 	<div class="well span5 center login-box" >
 		
