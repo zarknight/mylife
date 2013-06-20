@@ -1,71 +1,84 @@
-
 <div class="well" style="padding-top:0;padding-bottom:0;">
-<h3>My Contacts</h3>
+  <div style="display:inline-block;"><h3>My Contacts</h3></div>
+  <div style="float:right; margin-top:15px" >
+    <button id="newContactBtn" class="btn" type="button" ng-click="newContact()">+</button>
+  </div>
 </div>
 
-<p>
-<button id="newContactBtn" class="btn" type="button" ng-click="newContact()">+</button>
-</p>
-
 <div id="creatNewDiv" style="display:none">
-	<table class="table ">
-		<tbody>
-			<tr>
-			  <td><div><strong>First Name:</strong></div>
-				  <input  id="newFN" type='text' class="span2"/></td>
-			  <td><div><strong>Last Name:</strong></div>
-			      <input id="newLN" type='text'class="span2"/></td>
-			  <td><div><strong>Relation to me:</strong></div>
-			      <select id="newRL" class="span2" >
-					<option>Wife</option>
-					<option>Husband</option>
-					<option>Daughter</option>
-					<option>Son</option>
-					<option>Daughter-in-Law</option>
-					<option>Son-in-Law</option>
-					<option>Mother</option>
-					<option>Father</option>
-					<option>Grandmonther</option>
-					<option>Grandfather</option>
-					<option>Aunt</option>
-					<option>Uncle</option>
-					<option>Cousin</option>
-					<option>Un-Decided</option>
-				  </select>
-			  </td>
-			  <td><div><strong>Email:</strong></div>
-			      <input id="newML"type='text' class="span2"/></td>
-			</tr>
-			<tr>
-			  <td colspan="4">
-				<button id="createNewBtn" class="btn buttonGroup" type="button" ng-click="createNew()">Create</button>
-				<button id="cancelNewBtn" class="btn buttonGroup" type="button" ng-click="cancelNew()">Cancel</button>
-			  </td>		  
-			</tr>
-		</tbody>
-	</table>
+  <table class="table ">
+    <tbody>
+      <tr>
+        <td>
+          <div><strong>First Name:</strong></div>
+          <input id="newFN" type='text' class="span2"/>
+        </td>
+        <td>
+          <div><strong>Last Name:</strong></div>
+          <input id="newLN" type='text' class="span2"/>
+         </td>
+        <td>
+          <div><strong>Relation to me:</strong></div>
+          <select id="newRL" class="span2" >
+            <option>Wife</option>
+            <option>Husband</option>
+            <option>Daughter</option>
+            <option>Son</option>
+            <option>Daughter-in-Law</option>
+            <option>Son-in-Law</option>
+            <option>Mother</option>
+            <option>Father</option>
+            <option>Grandmonther</option>
+            <option>Grandfather</option>
+            <option>Aunt</option>
+            <option>Uncle</option>
+            <option>Cousin</option>
+            <option>Un-Decided</option>
+          </select>
+        </td>
+        <td>
+          <div><strong>Email:</strong></div>
+          <input id="newML" type='text' class="span2"/>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4">
+        <button id="createNewBtn" class="btn buttonGroup" type="button" ng-click="createNew()">Create</button>
+        <button id="cancelNewBtn" class="btn buttonGroup" type="button" ng-click="cancelNew()">Cancel</button>
+        </td>      
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <hr/>
 
 <table class="table">
-	<thead>
-		<tr>
-		  <th>First Name</th>
-		  <th>Last Name</th>
-		  <th>Relation to me</th>
-		  <th>Email</th>
-		  <th>Action</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr ng-repeat="d in data" id="row_{{d.id}}">
-		  <td><div>{{d.firstname}}</div></td>
-		  <td><div>{{d.lastname}}</div></td>
-		  <td><div>{{d.relation}}</div></td>
-		  <td><div>{{d.email}}</div></td>
-		  <td><div><a href="" ng-click="editContact(d)">Edit</a> | <a href="" ng-click="deleteContact(d)">Delete</a></div>
-		      <div style="display:none"><a href="" ng-click="updateContact(d)">Update</a> | <a href="" ng-click="cancelEdit(d)">Cancel</a></div></td>
-		</tr>
-	</tbody>
+  <thead>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Relation to me</th>
+      <th>Email</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="d in data" id="row_{{d.id}}">
+      <td><div>{{d.firstname}}</div></td>
+      <td><div>{{d.lastname}}</div></td>
+      <td><div>{{d.relation}}</div></td>
+      <td><div>{{d.email}}</div></td>
+      <td>
+      	<div>
+      		<a href="" ng-click="editContact(d)">Edit</a> | 
+      		<a href="" ng-click="deleteContact(d)">Delete</a>
+      	</div>
+        <div style="display:none">
+        	<a href="" ng-click="updateContact(d)">Update</a> | 
+        	<a href="" ng-click="cancelEdit(d)">Cancel</a>
+        </div>
+      </td>
+    </tr>
+  </tbody>
 </table>

@@ -25,34 +25,19 @@
 				</ul>
 			</div>
 		</div>
-		<script>
-		
-			var urls = window.location.href.split("#");
-			if(urls.length>1) {
-				$('*[href="#'+urls[1]+'"]').parent().addClass("active");
-			}
-			else {
-				$('*[href="#/dashboard"]').parent().addClass("active");
-			}
-				
-			
-			$("#navList").on('click', function(event){
-				$(this).children().each(function(){
-					$(this).removeClass("active");					
-				})
-				$(event.target).parent().addClass("active");
-			})			
-		</script>
 
-			
 		<div class="span10"> 
-			<div class="" ng-view></div>
+			<div ng-view></div>
 		</div>
-		 
 	</div>
 </div>
 
 <!-- ***************** app scripts start ***************** -->
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/main/app.js"></script>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/main/controllers/controller.main.js"></script>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/main/controllers/controller.dashboard.js"></script>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/main/controllers/controller.contact.js"></script>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/main/controllers/controller.message.js"></script>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/main/controllers/controller.profile.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/main/controllers/controllers.js"></script>
 <!-- ***************** app scripts end ******************* -->
