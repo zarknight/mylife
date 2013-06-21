@@ -20,11 +20,13 @@ var editorSetting = {
   langType: 'en',
   resizeType: 0,
   items: [
+	'source', '|',
     'fontname', 'fontsize', '|', 
     'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'removeformat', '|', 
     'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent','|', 
     'image', 'link'
   ],
+  uploadJson: WEB_ROOT+"/index.php/file/upload",
 }
 
 function MessageEditCtrl($scope,$routeParams) {
