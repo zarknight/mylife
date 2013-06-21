@@ -63,6 +63,10 @@ class FileController extends Controller
 				exit;
 			}
 			
+			if (!file_exists($save_path)) {
+				mkdir($save_path);
+			}
+			
 			if (file_exists($save_path . $_FILES["imgFile"]["name"])) {
 				echo json_encode(array('error' => 1, 'message' => $_FILES["imgFile"]["name"] . " already exists. "));
 				exit;
