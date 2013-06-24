@@ -1,12 +1,11 @@
-<div class="well" style="padding-top:0;padding-bottom:0;">
-  <div style="display:inline-block;"><h3>My Contacts</h3></div>
-  <div style="float:right; margin-top:15px" >
-    <button id="newContactBtn" class="btn" type="button" ng-click="newContact()">+</button>
-  </div>
-</div>
 
-<div id="creatNewDiv" style="display:none">
-  <table class="table ">
+
+<p>
+<button id="newContactBtn" class="btn btn-small" type="button" ng-click="newContact()">+</button>
+</p>
+
+<div id="creatNewDiv" class="borderedContainer" style="display:none">
+  <table class="table">
     <tbody>
       <tr>
         <td>
@@ -43,8 +42,8 @@
       </tr>
       <tr>
         <td colspan="4">
-        <button id="createNewBtn" class="btn buttonGroup" type="button" ng-click="createNew()">Create</button>
-        <button id="cancelNewBtn" class="btn buttonGroup" type="button" ng-click="cancelNew()">Cancel</button>
+        <button id="createNewBtn" class="btn btn-small buttonGroup" type="button" ng-click="createNew()">Create</button>
+        <button id="cancelNewBtn" class="btn btn-small buttonGroup" type="button" ng-click="cancelNew()">Cancel</button>
         </td>      
       </tr>
     </tbody>
