@@ -16,6 +16,8 @@ function MessageListCtrl($scope, $http, $routeParams) {
   $scope.reloadMessage();
 }
 
+/********************************************************************************************************/
+
 var editorSetting = {
   langType: 'en',
   resizeType: 0,
@@ -29,7 +31,7 @@ var editorSetting = {
   uploadJson: WEB_ROOT+"/index.php/file/upload",
 }
 
-function MessageEditCtrl($scope,$routeParams) {
+function MessageEditCtrl($scope,$routeParams,$http) {
   if ($routeParams.type == 'create') {
     $scope.title = "Create";
   } else {
@@ -57,5 +59,54 @@ function MessageEditCtrl($scope,$routeParams) {
     $("#nav").show();
     window.location.href = "#/messages?type=1";
   }
+  
+  $scope.showContacts = function($event){
+    if( typeof $scope.contactsData == "undefined") {
+		$http.get(WEB_ROOT+'/index.php/contact/index').success(function(data) {
+			$scope.contactsData = data;
+			
+			$("#contactListContent").children().bind("mouseover", function(){ $(this).children().css("background-color","#dddddd")})
+				.bind("mouseout", function(){ $(this).children().css("background-color","#ffffff")});
+			$scope.showContactListPop($event);
+		  });
+	}
+	else {
+		$scope.showContactListPop($event);
+	}
+	
+  }
+  
+  $scope.showContactListPop = function($event){
+	$("#contactListPop").show();
+	$("#contactListPop").bind("click", function(event){event.stopPropagation();})
+	$event.cancelBubble = true;
+	$(window).bind("click", $scope.hideContactListPop);
+  }
+  
+  $scope.hideContactListPop = function(){
+	$("#contactListPop").hide();
+	$(window).unbind("click", $scope.hideContactListPop);
+  }
+  
+  $scope.clickOnContact = function($event){
+	var name = $(".cname",$event.currentTarget).text();
+	var item = $('<div class="msg_contact_blc"><a href="" class="msg_contact_btn"><span class="msg_contact_name">'+ name
+       +'</span></a><a href="" class="msg_contact_btn"><span class="msg_contact_name"> x </span></a></div>').appendTo("#contactsDiv")
+	$(".msg_contact_name", item).last().on("click", function(event){
+											event.preventDefault();
+											$(item).remove();
+											$("#contactListPop").css("top", $("#contactsDiv").outerHeight());											
+										});
+	$("#contactListPop").css("top", $("#contactsDiv").outerHeight());
+  }
+  
+  $scope.mouseoverContact = function($event){
+	$($event.currentTarget).children().css("background-color","#dddddd");
+  }
+  
+  $scope.mouseoutContact = function($event){
+	$($event.currentTarget).children().css("background-color","#ffffff");
+  }
+  
 
 }

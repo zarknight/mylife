@@ -7,12 +7,12 @@ function ContactListCtrl($scope, $http) {
   
   $scope.newContact = function(){  
     $('#newContactBtn').attr('disabled','disabled');
-    $('#creatNewDiv').css('display','');
+    $('#creatNewDiv').slideDown(1000);
   }
   
   $scope.cancelNew = function(){  
     $('#newContactBtn').removeAttr('disabled');
-    $('#creatNewDiv').css('display','none');
+    $('#creatNewDiv').slideUp(1000);
   }
   
   $scope.createNew = function(){

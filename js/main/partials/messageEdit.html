@@ -5,13 +5,38 @@
 </p>
 
 <hr style="width:800px"/>
-<p>
-<div style="display:inline-block; width:60px;">To: </div>
-<input type="text"  style="margin-bottom:0;">
-</p>
+
+<div style="position:relative">
+	<div style="display:inline-block; width:60px; vertical-align:top">
+		<button class="btn btn-link" style="padding-left:0" ng-click="showContacts($event)">To: </button>
+	</div>
+	<div id="contactsDiv" class="borderedContainer" ng-click="showContacts($event)"
+	     style="display:inline-block; width:300px; min-height:22px">
+	</div>
+	<div id="contactListPop" class="msg_contact_pop"
+		     style="top:32px; left:64px;  max-height:150px; width:315px; overflow:auto">
+			 <div>
+				<ul id="contactListContent" style="margin-left:0; padding:2px 10px; list-style:none" >
+					<li ng-repeat="c in contactsData" ng-click="clickOnContact($event)" 
+					    ng-mouseover="mouseoverContact($event)" ng-mouseout="mouseoutContact($event)">
+						<div style='margin:0 -10px; padding:0 10px;'>
+							<table>
+								<tr>
+									<td><i class="icon-user" style="margin:0 10px"></i></td>
+									<td><div class="cname">{{c.firstname+" "+c.lastname}}</div>
+									<div class="cmail">{{c.email}}</div>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</li>
+				</ul>
+			 </div>
+	</div>
+</div>
 <p>
 <div style="display:inline-block; width:60px;">Subject: </div>
-<input type="text"  style="margin-bottom:0">
+<input type="text"  style="margin-bottom:0; width:300px;">
 </p>
 
 

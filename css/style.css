@@ -75,3 +75,34 @@ input[type="color"], .uneditable-input{
 .borderedContainer .table td {
 	border:none;
 }
+
+/**       message-edit page      **/
+
+.msg_contact_blc {
+	background-color:#dddddd; 
+	display:inline-block; 
+	height:20px; 
+	margin:0 2px 5px 0;
+}
+
+.msg_contact_btn {
+	display:inline-block; 
+	height:20px;
+}
+
+.msg_contact_name {
+	height:20px; 
+	padding:0 5px;
+}
+
+.msg_contact_blc a:hover {
+	text-decoration: none;
+	background-color: #cccccc;
+}
+
+.msg_contact_pop {
+	position:absolute; 
+	border:1px solid #dddddd; 
+	background-color:#ffffff;
+	display:none;
+}
