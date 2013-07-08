@@ -38,7 +38,7 @@ function MessageEditCtrl($scope,$routeParams,$http) {
     $scope.title = "Edit";
   }
   
-  var editor = KindEditor.create('#editContent', editorSetting);
+  $scope.editor = KindEditor.create('#editContent', editorSetting);
 
   $("#nav").hide();
 
@@ -51,8 +51,25 @@ function MessageEditCtrl($scope,$routeParams,$http) {
   }
   
   $scope.save = function(){
-    $("#nav").show();
-    window.location.href = "#/messages?type=3";
+	var info = {};
+	info.to = [];
+	$(".hiddenText", "#contactsDiv").each(function(){
+		var val = this.innerHTML;
+		if($.inArray(val, info.to) === -1) info.to.push(val);});
+	
+	info.title = $("#title").val();
+	info.content = encodeURIComponent($scope.editor.html());
+	
+	$.ajax({
+      type: 'POST',
+      url: WEB_ROOT+'/index.php/submission/save',
+      data: info,
+      success: function(data) {
+		$("#nav").show();
+		window.location.href = "#/messages?type=3";
+      }
+    })
+    
   }
   
   $scope.send = function(){
@@ -90,7 +107,8 @@ function MessageEditCtrl($scope,$routeParams,$http) {
   
   $scope.clickOnContact = function($event){
 	var name = $(".cname",$event.currentTarget).text();
-	var item = $('<div class="msg_contact_blc"><a href="" class="msg_contact_btn"><span class="msg_contact_name">'+ name
+	var id = $(".hiddenText",$event.currentTarget).text();
+	var item = $('<div class="msg_contact_blc"><span class="hiddenText">'+ id +'</span><a class="msg_contact_btn"><span class="msg_contact_name">'+ name
        +'</span></a><a href="" class="msg_contact_btn"><span class="msg_contact_name"> x </span></a></div>').appendTo("#contactsDiv")
 	$(".msg_contact_name", item).last().on("click", function(event){
 											event.preventDefault();

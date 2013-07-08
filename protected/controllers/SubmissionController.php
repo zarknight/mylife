@@ -23,7 +23,7 @@ class SubmissionController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view','save'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -76,6 +76,40 @@ class SubmissionController extends Controller
 		}
 
 		echo json_encode($results);
+	}
+	
+	public function actionSave()
+	{
+		$submission=new Submission;
+		if(isset($_POST["id"])) {
+			$submission = Submission::model()->findByPk($_POST["id"]);
+			$submission->title = $_POST["title"];
+			$submission->content = $_POST["content"];
+			$submission->status = 3;
+			$submission->update();
+			
+			//delete old contacts of submission
+			SubmissionContact::model()->deleteAll('submissionid=:sid',array(':sid'=>($submission->id)));
+		}
+		else {
+			$submission=new Submission;
+			$submission->userid = Yii::app()->user->getId();
+			$submission->title = $_POST["title"];
+			$submission->content = $_POST["content"];
+			$submission->status = 3;
+			$submission->save();
+		}
+		
+		if(isset($_POST["to"])){
+			$cidList = $_POST["to"];
+			foreach($cidList as $cid) {
+				$submissionContact = new SubmissionContact;
+				$submissionContact->contactid = (int)$cid;
+				$submissionContact->submissionid = $submission->id;
+				$submissionContact->save();
+			}
+			
+		}
 	}
 	
 	/**

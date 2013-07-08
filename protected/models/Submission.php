@@ -110,4 +110,14 @@ class Submission extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	
+	public function beforeSave() {
+		if ($this->isNewRecord)
+			$this->create_date = new CDbExpression('NOW()');
+	 
+		$this->update_date = new CDbExpression('NOW()');
+	 
+		return parent::beforeSave();
+	}
+
 }

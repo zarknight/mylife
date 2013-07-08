@@ -106,3 +106,8 @@ input[type="color"], .uneditable-input{
 	background-color:#ffffff;
 	display:none;
 }
+
+.hiddenText {
+	position:absolute;
+	left:-999px;
+}
