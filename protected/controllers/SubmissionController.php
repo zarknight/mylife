@@ -23,7 +23,7 @@ class SubmissionController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','save'),
+				'actions'=>array('index','view','save','indexByRecepient'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -85,7 +85,7 @@ class SubmissionController extends Controller
 			$submission = Submission::model()->findByPk($_POST["id"]);
 			$submission->title = $_POST["title"];
 			$submission->content = $_POST["content"];
-			$submission->status = 3;
+			$submission->status = 0;
 			$submission->update();
 			
 			//delete old contacts of submission
@@ -96,7 +96,7 @@ class SubmissionController extends Controller
 			$submission->userid = Yii::app()->user->getId();
 			$submission->title = $_POST["title"];
 			$submission->content = $_POST["content"];
-			$submission->status = 3;
+			$submission->status = 0;
 			$submission->save();
 		}
 		
@@ -109,7 +109,35 @@ class SubmissionController extends Controller
 				$submissionContact->save();
 			}
 			
+			$submission->status = 1;
+			$submission->save();
 		}
+	}
+	
+	/**
+	 * get message based on recepient id
+	 */
+	public function actionIndexByRecepient(){
+	
+		$criteria=new CDbCriteria;
+		$criteria->alias = 'contact';
+		$criteria->with = array('messages');
+		$criteria->addInCondition('contact.id', $_POST["to"]);
+		$recepients = Contact::model()->findAll($criteria);
+		
+		$results = array();
+		foreach($recepients as $recepient){
+			$messages = $recepient->messages;
+			$msgArr = array();
+			foreach($messages as $msg){
+				array_push($msgArr,array("id"=>$msg->id, "title"=>$msg->title));
+			}
+			array_push($results, array("id"=>$recepient->id, "name"=>($recepient->firstname.' '.$recepient->lastname),
+			                           "messages"=>$msgArr));
+		}
+
+		echo json_encode($results);
+	
 	}
 	
 	/**
