@@ -36,12 +36,15 @@ create table tbl_submission (
   content text,
   description text,
   status int(1),
-  submission_date timestamp,
-  create_date timestamp,
-  update_date timestamp
+  create_date timestamp not null,
+  update_date timestamp not null,
+  submission_date timestamp
 );
 
 create table tbl_submission_contact (
-  contactid integer not null,
-  submissionid integer not null
+  contactid integer,
+  submissionid integer,
+  primary key (contactid, submissionid),
+  foreign key (contactid) references tbl_contact(id),
+  foreign key (submissionid) references tbl_submission(id)
 );

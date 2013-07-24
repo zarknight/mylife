@@ -61,7 +61,7 @@ class Submission extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'contacts' => array(self::MANY_MANY, 'Contact', 'tbl_submission_contact(contactid,submissionid)')
+			'recepients' => array(self::MANY_MANY, 'Contact', 'tbl_submission_contact(contactid,submissionid)')
 		);
 	}
 
@@ -110,4 +110,14 @@ class Submission extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	
+	public function beforeSave() {
+		if ($this->isNewRecord)
+			$this->create_date = new CDbExpression('NOW()');
+	 
+		$this->update_date = new CDbExpression('NOW()');
+	 
+		return parent::beforeSave();
+	}
+
 }

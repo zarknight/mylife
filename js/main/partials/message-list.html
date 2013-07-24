@@ -1,39 +1,49 @@
-<div class="well" style="padding-top:0;padding-bottom:0;">
-  <div style="display:inline-block;"><h3>My Messages</h3></div>
-  <div style="float:right; margin-top:15px" >
-    <button id="newMessageBtn" class="btn" type="button" ng-click="newMessage()">+</button>
-  </div>
-</div>
 
-<div style="border-bottom:1px solid #eeeeee">
+<div style="border-bottom:1px solid #eeeeee; margin-bottom:5px">
   <select id="messageType" ng-model="type" ng-change="reloadMessage()">
-    <option value="1">Sent</option>
-    <option value="2">Pending</option>
-    <option value="3">Draft</option>
+    <option value="1">Assigned messages</option>
+    <option value="0">Un-assigned messages</option>
   </select>
+  <button id="newMessageBtn" class="btn" type="button" style="float:right" ng-click="newMessage()">+</button>
 </div>
 
-<table class="table">
-  <colgroup>
-    <col width="25%">
-    <col width="45%">
-    <col width="15%">
-    <col width="15%">
-  </colgroup>
-  <thead>
-    <tr>
-      <th>To</th>
-      <th>Title</th>
-      <th>Date</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat="d in data" id="row_{{d.id}}">
-      <td><div></div></td>
-      <td><div>{{d.title}}</div></td>
-      <td><div>{{d.create_date}}</div></td>
-      <td><a>edit</a></td>
-    </tr>
-  </tbody>
-</table>
+<!--  unassigned message list-->
+<div id="pane1" style="display:none" >
+	<table class="table">
+	  <colgroup>
+		<col width="60%">
+		<col width="25%">
+		<col width="15%">
+	  </colgroup>
+	  <thead>
+		<tr>
+		  <th>Title</th>
+		  <th>Date</th>
+		  <th>Action</th>
+		</tr>
+	  </thead>
+	  <tbody>
+		<tr ng-repeat="d in data" id="row_{{d.id}}">
+		  <td><div>{{d.title}}</div></td>
+		  <td><div>{{d.create_date}}</div></td>
+		  <td><a>edit</a></td>
+		</tr>
+	  </tbody>
+	</table>
+</div>
+
+<!--  assigned message list-->
+<div id="pane2" >
+	<div class="collapsible" ng-repeat="d in cdata" >
+		<div class="collapsibleHeader" ng-click="loadMessageByRel($event, d)">
+			<i class="icon-plus"></i> <i class="icon-minus" style="display:none"></i>
+			<span style="padding-left:10px">{{d.rel}}</span>
+		</div>
+		<div class="collapsibleContent"></div>
+	</div>
+	
+
+</div>
+
+
+

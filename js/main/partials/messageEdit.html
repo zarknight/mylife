@@ -22,7 +22,8 @@
 						<div style='margin:0 -10px; padding:0 10px;'>
 							<table>
 								<tr>
-									<td><i class="icon-user" style="margin:0 10px"></i></td>
+									<td><i class="icon-user" style="margin:0 10px"></i>
+									    <span class="hiddenText">{{c.id}}</span></td>
 									<td><div class="cname">{{c.firstname+" "+c.lastname}}</div>
 									<div class="cmail">{{c.email}}</div>
 									</td>
@@ -36,7 +37,7 @@
 </div>
 <p>
 <div style="display:inline-block; width:60px;">Subject: </div>
-<input type="text"  style="margin-bottom:0; width:300px;">
+<input id="title" type="text"  style="margin-bottom:0; width:300px;">
 </p>
 
 

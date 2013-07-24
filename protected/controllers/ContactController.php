@@ -22,7 +22,7 @@ class ContactController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','groupIndex','view'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -101,6 +101,35 @@ class ContactController extends Controller
 		}
 	}
 
+	public function actionGroupIndex()
+	{
+		$currentUserId = Yii::app()->user->getId();
+
+		$criteria=new CDbCriteria;     
+		$criteria->compare('userid', $currentUserId);
+		$dataProvider = new CActiveDataProvider('Contact', array( 'criteria'=>$criteria, )); 
+		$data = $dataProvider->getData();
+		$model = new Contact;
+
+		$attributes = $model->attributeNames();
+
+		$tmp = array();
+
+		for($i=0; $i<count($data); $i++) {
+			$rel = $data[$i]["relation"];
+			if(!isset($tmp[$rel]))
+				$tmp[$rel] = array();
+			
+			array_push($tmp[$rel],$data[$i]["id"]);
+		}
+		
+		$results = array();
+		foreach($tmp as $key=>$value)
+			array_push($results, array("rel"=>$key, "values"=>$value));
+			
+		echo json_encode($results);
+	}
+	
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.

@@ -107,19 +107,28 @@ input[type="color"], .uneditable-input{
 	display:none;
 }
 
-.profile-ctn {
-	border: 2px solid #e6eff2;
+.hiddenText {
+	position:absolute;
+	left:-999px;
 }
 
-.profile-btns {
-	padding: 20px;
+.collapsible {
+	margin-bottom:5px;
+}
+.collapsibleHeader {
+	background-color: #f5f5f5;
+	border: 1px solid #E3E3E3;
+	padding: 5px 10px;
+}
+.collapsibleContent {
+	display:none;
+	margin-left:10px;
 }
 
-.profile-btns button {
-	margin-left: 10px;
+.collapsibleContent .table {
+	margin-bottom:0;
 }
 
-#profile-section, #profile-pwd-section {
-	padding-left: 0;
-	padding-right: 0;
+.collapsibleContent i{
+	margin-right:10px
 }

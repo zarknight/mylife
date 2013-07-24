@@ -8,15 +8,77 @@ function MessageListCtrl($scope, $http, $routeParams) {
   }
   
   $scope.reloadMessage = function(){
-    $http.get(WEB_ROOT+'/index.php/submission/index?type='+$scope.type).success(function(data) {
-      $scope.data = data;
-    });
+	if($scope.type ==0) {
+		$http.get(WEB_ROOT+'/index.php/submission/index?type='+$scope.type).success(function(data) {
+		  $scope.data = data;
+		});
+		$("#pane1").show();
+		$("#pane2").hide();
+	}
+	else {
+		$http.get(WEB_ROOT+'/index.php/contact/groupIndex').success(function(data) {
+			$scope.cdata = data;
+		});
+		
+		$("#pane1").hide();
+		$("#pane2").show();
+	}
   }
   
   $scope.reloadMessage();
+  
+  $scope.loadMessageByRel = function(event, obj){
+		var children = $(event.currentTarget).children();
+		var contentDiv = $(event.currentTarget).next()[0];
+		if(children[0].style.display == "none"){
+			children[0].style.display = "";
+			children[1].style.display = "none";
+			contentDiv.style.display = "none";
+		}
+		else {
+			children[0].style.display = "none";
+			children[1].style.display = "";
+			contentDiv.style.display = "block";
+			
+			if(contentDiv.innerHTML=='')
+				$scope.fillContentDiv(obj,contentDiv);
+		}
+	}
+	
+	$scope.fillContentDiv = function(obj, parentDiv){
+		var table = $('<table class="table"><colgroup><col width="20%"><col width="80%"></colgroup></table>').appendTo(parentDiv)[0];
+		
+		var info = {};
+		info.to = obj.values;
+		$.ajax({
+		  type: 'POST',
+		  url: WEB_ROOT+'/index.php/submission/indexByRecepient',
+		  data: info,
+		  success: function(data) {
+					var contactArr = JSON.parse(data);
+					
+					for(var i=0; i<contactArr.length; i++){
+						var row = table.insertRow(0);
+						var cell0 = row.insertCell(0);
+						cell0.innerHTML = '<i class="icon-user"></i><div>'+contactArr[i].name+'</div>';
+						
+						var messages = contactArr[i].messages;
+						var cell1 = row.insertCell(1);
+						var msgContent = [];
+						for(var j=0; j<messages.length; j++) {
+							msgContent.push('<div><i class="icon-envelope"></i>'+ messages[j].title+'</div>');
+						}
+						cell1.innerHTML = msgContent.join(' ');
+					}
+					
+					
+				  }
+			})
+	}
+	
 }
 
-/********************************************************************************************************/
+/**********************************message edit controller**********************************************************************/
 
 var editorSetting = {
   langType: 'en',
@@ -38,7 +100,7 @@ function MessageEditCtrl($scope,$routeParams,$http) {
     $scope.title = "Edit";
   }
   
-  var editor = KindEditor.create('#editContent', editorSetting);
+  $scope.editor = KindEditor.create('#editContent', editorSetting);
 
   $("#nav").hide();
 
@@ -51,8 +113,25 @@ function MessageEditCtrl($scope,$routeParams,$http) {
   }
   
   $scope.save = function(){
-    $("#nav").show();
-    window.location.href = "#/messages?type=3";
+	var info = {};
+	info.to = [];
+	$(".hiddenText", "#contactsDiv").each(function(){
+		var val = this.innerHTML;
+		if($.inArray(val, info.to) === -1) info.to.push(val);});
+	
+	info.title = $("#title").val();
+	info.content = encodeURIComponent($scope.editor.html());
+	
+	$.ajax({
+      type: 'POST',
+      url: WEB_ROOT+'/index.php/submission/save',
+      data: info,
+      success: function(data) {
+		$("#nav").show();
+		window.location.href = "#/messages?type=1";
+      }
+    })
+    
   }
   
   $scope.send = function(){
@@ -90,7 +169,8 @@ function MessageEditCtrl($scope,$routeParams,$http) {
   
   $scope.clickOnContact = function($event){
 	var name = $(".cname",$event.currentTarget).text();
-	var item = $('<div class="msg_contact_blc"><a href="" class="msg_contact_btn"><span class="msg_contact_name">'+ name
+	var id = $(".hiddenText",$event.currentTarget).text();
+	var item = $('<div class="msg_contact_blc"><span class="hiddenText">'+ id +'</span><a class="msg_contact_btn"><span class="msg_contact_name">'+ name
        +'</span></a><a href="" class="msg_contact_btn"><span class="msg_contact_name"> x </span></a></div>').appendTo("#contactsDiv")
 	$(".msg_contact_name", item).last().on("click", function(event){
 											event.preventDefault();
