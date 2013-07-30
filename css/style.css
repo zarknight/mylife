@@ -137,3 +137,20 @@ input[type="color"], .uneditable-input{
 .collapsibleContent i{
 	margin-right:10px
 }
+
+.profile-ctn {
+	border: 2px solid #e6eff2;
+}
+
+.profile-btns {
+	padding: 20px;
+}
+
+.profile-btns button {
+	margin-left: 10px;
+}
+
+#profile-section, #profile-pwd-section {
+	padding-left: 0;
+	padding-right: 0;
+}

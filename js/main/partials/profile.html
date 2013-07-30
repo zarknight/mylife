@@ -2,14 +2,114 @@
   <div style="display:inline-block;"><h3>My Profile</h3></div>
 </div>
 
-<div>
-<!--
-  password
-  email
-  firstname
-  lastname
-  birthday
-  photo
--->
-  <img src="{{WEB_ROOT}}/images/profile.png"/>
+<div class="container-fluid profile-ctn">
+  <div class="row-fluid">
+    <div class="span6">
+      <h3>Personal infomation</h3>
+    </div>
+    <div class="span6 profile-btns">
+      <button class="btn btn-success pull-right" type="button" ng-click="saveProfile()" style="display:{{profileSaveDisplay}}">Save profile</button>
+      <button class="btn btn-success pull-right" type="button" ng-click="editProfile()"  style="display:{{profileEditDisplay}}">Edit profile</button>
+      <button class="btn btn-success pull-right" type="button" ng-click="savePassword()" style="display:{{passwordSaveDisplay}}">Save password</button>
+      <button class="btn btn-success pull-right" type="button" ng-click="changePassword()" style="display:{{passwordChangeDisplay}}">Change password</button>
+      <button class="btn btn-success pull-right" type="button" ng-click="cancel()" style="display:{{cancelDisplay}}">Cancel</button>
+    </div>
+  </div>
+  
+  <hr/>
+
+  <div id="profile-pwd-section" class="container-fluid" style="display:{{passwordPanelDisplay}}">
+    <div class="row-fluid">
+      <div class="span4">
+        <label>Old password</label>
+      </div>
+      <div class="span8">
+        <input type="password" name="oldPassword" id="old-pwd">
+        <div class="error-msg"></div>
+      </div>
+    </div>
+
+    <hr/>
+
+    <div class="row-fluid">
+      <div class="span4">
+        <label>New password</label>
+      </div>
+      <div class="span8">
+        <input type="password" name="newPassword" id="new-pwd">
+        <div class="error-msg"></div>
+      </div>
+    </div>
+
+    <hr/>
+
+    <div class="row-fluid">
+      <div class="span4">
+        <label>Repeat password</label>
+      </div>
+      <div class="span8">
+        <input type="password" id="rep-pwd">
+        <div class="error-msg"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="profile-section" class="container-fluid" style="display:{{profilePanelDisplay}}">
+    <div class="row-fluid">
+      <div class="span4">
+        <label>Profile picture</label>
+      </div>
+      <div class="span8">
+        <a href="javascript:void(0)"><img src="" />Image</a>
+      </div>
+    </div>
+
+    <hr/>
+
+    <div class="row-fluid">
+      <div class="span4">
+        <label>First name</label>
+      </div>
+      <div class="span8">
+        <span>Kevin</span>
+      </div>
+      <div class="error-msg"></div>
+    </div>
+
+    <hr/>
+
+    <div class="row-fluid">
+      <div class="span4">
+        <label>Last name</label>
+      </div>
+      <div class="span8">
+        <span>Zhang</span>
+      </div>
+      <div class="error-msg"></div>
+    </div>
+
+    <hr/>
+
+    <div class="row-fluid">
+      <div class="span4">
+        <label>Birthday</label>
+      </div>
+      <div class="span8">
+        <span>Jan 22, 1983</span>
+      </div>
+      <div class="error-msg"></div>
+    </div>
+
+    <hr/>
+
+    <div class="row-fluid">
+      <div class="span4">
+        <label>Email Address</label>
+      </div>
+      <div class="span8">
+        <span>zarknight@gmail.com</span>
+      </div>
+      <div class="error-msg"></div>
+    </div>
+  </div>
 </div>

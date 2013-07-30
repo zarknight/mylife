@@ -14,6 +14,7 @@
   </script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/angular/angular.min.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery/jquery-1.9.1.min.js"></script>
+  <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/editor/kindeditor.js"></script>
 </head>
 <body>
