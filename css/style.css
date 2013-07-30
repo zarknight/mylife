@@ -120,6 +120,11 @@ input[type="color"], .uneditable-input{
 	border: 1px solid #E3E3E3;
 	padding: 5px 10px;
 }
+
+.collapsibleHeader i{
+	cursor:pointer;
+}
+
 .collapsibleContent {
 	display:none;
 	margin-left:10px;

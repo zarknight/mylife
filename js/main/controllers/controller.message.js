@@ -1,10 +1,10 @@
 'use strict';
 
-function MessageListCtrl($scope, $http, $routeParams) {
+function MessageListCtrl($scope, $http, $routeParams, $location) {
   $scope.type = (typeof $routeParams.type != "undefined")? ($routeParams.type):1;
   
   $scope.newMessage = function() {
-    window.location.href = "#/createMessage?type=create";
+    $location.url('/createMessage?type=create')
   }
   
   $scope.reloadMessage = function(){
@@ -27,24 +27,25 @@ function MessageListCtrl($scope, $http, $routeParams) {
   
   $scope.reloadMessage();
   
-  $scope.loadMessageByRel = function(event, obj){
-		var children = $(event.currentTarget).children();
-		var contentDiv = $(event.currentTarget).next()[0];
-		if(children[0].style.display == "none"){
-			children[0].style.display = "";
-			children[1].style.display = "none";
-			contentDiv.style.display = "none";
-		}
-		else {
-			children[0].style.display = "none";
-			children[1].style.display = "";
-			contentDiv.style.display = "block";
+  $scope.toggle = function(event, obj){
+		var target = event.currentTarget?event.currentTarget:event.srcElement;
+		var containerDiv = target.parentNode.parentNode;
+		var contentDiv = $(containerDiv).children()[1];
+		
+		if($(contentDiv).css("display")=="none"){
+			$(target).removeClass("icon-plus").addClass("icon-minus");
+			$(contentDiv).css("display","block");
 			
 			if(contentDiv.innerHTML=='')
 				$scope.fillContentDiv(obj,contentDiv);
 		}
+		else{
+			$(target).removeClass("icon-minus").addClass("icon-plus");
+			$(contentDiv).css("display","none");
+		}
+		
 	}
-	
+  	
 	$scope.fillContentDiv = function(obj, parentDiv){
 		var table = $('<table class="table"><colgroup><col width="20%"><col width="80%"></colgroup></table>').appendTo(parentDiv)[0];
 		
@@ -71,7 +72,6 @@ function MessageListCtrl($scope, $http, $routeParams) {
 						cell1.innerHTML = msgContent.join(' ');
 					}
 					
-					
 				  }
 			})
 	}
@@ -93,7 +93,7 @@ var editorSetting = {
   uploadJson: WEB_ROOT+"/index.php/file/upload",
 }
 
-function MessageEditCtrl($scope,$routeParams,$http) {
+function MessageEditCtrl($scope,$routeParams,$http,$location) {
   if ($routeParams.type == 'create') {
     $scope.title = "Create";
   } else {
@@ -108,7 +108,7 @@ function MessageEditCtrl($scope,$routeParams,$http) {
     var res = window.confirm("Are you sure to discard the message?");   
     if (res) {
       $("#nav").show();
-      window.location.href = "#/messages";
+      $location.url("/messages");
     }
   }
   
@@ -128,7 +128,7 @@ function MessageEditCtrl($scope,$routeParams,$http) {
       data: info,
       success: function(data) {
 		$("#nav").show();
-		window.location.href = "#/messages?type=1";
+		$location.url("/messages?type=1");
       }
     })
     
@@ -136,7 +136,7 @@ function MessageEditCtrl($scope,$routeParams,$http) {
   
   $scope.send = function(){
     $("#nav").show();
-    window.location.href = "#/messages?type=1";
+    $location.url("/messages?type=1");
   }
   
   $scope.showContacts = function($event){

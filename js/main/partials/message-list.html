@@ -35,8 +35,8 @@
 <!--  assigned message list-->
 <div id="pane2" >
 	<div class="collapsible" ng-repeat="d in cdata" >
-		<div class="collapsibleHeader" ng-click="loadMessageByRel($event, d)">
-			<i class="icon-plus"></i> <i class="icon-minus" style="display:none"></i>
+		<div class="collapsibleHeader" >
+			<i name="icon" class="icon-plus"  ng-click="toggle($event,d)"></i>
 			<span style="padding-left:10px">{{d.rel}}</span>
 		</div>
 		<div class="collapsibleContent"></div>
