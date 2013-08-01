@@ -61,13 +61,13 @@ function MessageListCtrl($scope, $http, $routeParams, $location) {
 					for(var i=0; i<contactArr.length; i++){
 						var row = table.insertRow(0);
 						var cell0 = row.insertCell(0);
-						cell0.innerHTML = '<i class="icon-user"></i><div>'+contactArr[i].name+'</div>';
+						cell0.innerHTML = '<i class="userIcon32"></i><div>'+contactArr[i].name+'</div>';
 						
 						var messages = contactArr[i].messages;
 						var cell1 = row.insertCell(1);
 						var msgContent = [];
 						for(var j=0; j<messages.length; j++) {
-							msgContent.push('<div><i class="icon-envelope"></i>'+ messages[j].title+'</div>');
+							msgContent.push('<div><i class="msgIcon16"></i>'+ messages[j].title+'</div>');
 						}
 						cell1.innerHTML = msgContent.join(' ');
 					}

@@ -135,22 +135,23 @@ input[type="color"], .uneditable-input{
 }
 
 .collapsibleContent i{
-	margin-right:10px
+	margin-right:10px;
 }
 
-.profile-ctn {
-	border: 2px solid #e6eff2;
+.collapsibleContent table  tr:first-child   td {
+	border-top:none;
 }
 
-.profile-btns {
-	padding: 20px;
+.userIcon32 {
+	background-image: url("../images/userIcon32.png");
+	width:32px;
+	height:32px;
+	display:inline-block;
 }
 
-.profile-btns button {
-	margin-left: 10px;
-}
-
-#profile-section, #profile-pwd-section {
-	padding-left: 0;
-	padding-right: 0;
+.msgIcon16 {
+	background-image: url("../images/msgIcon16.png");
+	width:16px;
+	height:13px;
+	display:inline-block;
 }
