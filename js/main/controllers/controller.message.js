@@ -127,8 +127,10 @@ function MessageEditCtrl($scope,$routeParams,$http,$location) {
       url: WEB_ROOT+'/index.php/submission/save',
       data: info,
       success: function(data) {
-		$("#nav").show();
-		$location.url("/messages?type=1");
+		$scope.$apply( function(){
+			$("#nav").show();
+			$location.url("/messages?type=1");
+			});
       }
     })
     

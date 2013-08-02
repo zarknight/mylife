@@ -149,8 +149,6 @@ class ContactController extends Controller
 	{
 		$model=$this->loadModel($_POST["id"]);
 		
-		$model->firstname = $_POST["firstname"];
-		$model->lastname = $_POST["lastname"];
 		$model->relation = $_POST["relation"];
 		$model->email = $_POST["email"];
 		

@@ -5,12 +5,13 @@
 </p>
 
 <div id="creatNewDiv" class="borderedContainer" style="display:none">
+  <form id="newForm">
   <table class="table">
     <tbody>
       <tr>
         <td>
           <div><strong>First Name:</strong></div>
-          <input id="newFN" type='text' class="span2"/>
+          <input id="newFN" type='text' class="span2" />
         </td>
         <td>
           <div><strong>Last Name:</strong></div>
@@ -18,22 +19,25 @@
          </td>
         <td>
           <div><strong>Relation to me:</strong></div>
-          <select id="newRL" class="span2" >
-            <option>Wife</option>
-            <option>Husband</option>
-            <option>Daughter</option>
-            <option>Son</option>
-            <option>Daughter-in-Law</option>
-            <option>Son-in-Law</option>
-            <option>Mother</option>
-            <option>Father</option>
-            <option>Grandmonther</option>
-            <option>Grandfather</option>
-            <option>Aunt</option>
-            <option>Uncle</option>
-            <option>Cousin</option>
-            <option>Un-Decided</option>
-          </select>
+          <div>
+			  <input type="radio" name="typeRL" id="typeRL1" />
+			  <select id="newRL" class="span2" >
+				<option>Daughter</option>
+				<option>Son</option>
+				<option>Sister</option>
+				<option>Brother</option>
+				<option>Mother</option>
+				<option>Father</option>
+				<option>Grandmonther</option>
+				<option>Grandfather</option>
+				<option>Granddaughter</option>
+				<option>Granddson</option>
+			  </select>
+		  </div>
+		  <div>
+			  <input type="radio" name="typeRL" id="typeRL2"/>
+			  <input id="newRL2" type="text" class="span2" /><div>
+		  </div>
         </td>
         <td>
           <div><strong>Email:</strong></div>
@@ -43,11 +47,13 @@
       <tr>
         <td colspan="4">
         <button id="createNewBtn" class="btn btn-small buttonGroup" type="button" ng-click="createNew()">Create</button>
+		<button id="createNewBtn" class="btn btn-small buttonGroup" style="width:120px;" type="button" ng-click="createNewAndClose()">Create and Close</button>
         <button id="cancelNewBtn" class="btn btn-small buttonGroup" type="button" ng-click="cancelNew()">Cancel</button>
         </td>      
       </tr>
     </tbody>
   </table>
+  </form>
 </div>
 
 <hr/>

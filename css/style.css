@@ -13,6 +13,9 @@ input[type="color"], .uneditable-input{
 	font-size: 13px;
 }
 
+input[type="radio"] {
+	margin-bottom:12px;
+}
 
 .login-header, .login-box {
   float:none!important; 

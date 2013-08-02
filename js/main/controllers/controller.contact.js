@@ -5,6 +5,28 @@ function ContactListCtrl($scope, $http) {
     $scope.data = data;
   });
   
+  initForm("newForm");
+  
+  function initForm(form){
+	$("#"+form+" #typeRL1").bind('click', function(){ 
+		$(this).next().removeAttr("disabled");
+		$("#"+form+" #typeRL2").next().attr("disabled","true")});
+	$("#"+form+" #typeRL2").bind('click', function(){ 
+		$(this).next().removeAttr("disabled");
+		$("#"+form+" #typeRL1").next().attr("disabled","true")})
+		
+	$("#"+form+" #typeRL1").attr("checked", true);
+	$("#"+form+" #typeRL2").next().attr("disabled","true");
+  }
+  
+  function resetForm(form){
+	$("#"+form+" #newFN").val("");
+	$("#"+form+" #newLN").val("");
+	$("#"+form+" #newRL").val("");
+	$("#"+form+" #newRL2").val("");
+	$("#"+form+" #newML").val("");
+  }
+  
   $scope.newContact = function(){  
     $('#newContactBtn').attr('disabled','disabled');
     $('#creatNewDiv').slideDown(1000);
@@ -12,18 +34,26 @@ function ContactListCtrl($scope, $http) {
   
   $scope.cancelNew = function(){  
     $('#newContactBtn').removeAttr('disabled');
-    $('#creatNewDiv').slideUp(1000);
+    $('#creatNewDiv').slideUp(1000, function(){ resetForm("newForm")});
   }
   
   $scope.createNew = function(){
-    $scope.cancelNew();
     var info = {};
-    info.firstname = $("#newFN").val();
-    info.lastname = $("#newLN").val();
-    info.relation = $("#newRL").val();
-    info.email = $("#newML").val();
-    //$http.post(WEB_ROOT+'/index.php/contact/create', $.param(d)).success(function(data) {
-    //});
+    info.firstname = $("#newForm #newFN").val();
+    info.lastname = $("#newForm #newLN").val();
+	
+	if(info.firstname.split(' ').join('') == '' && info.lastname.split(' ').join('') == ''){
+		alert("please put first name and last name")
+		return;
+	}
+	
+	if(typeof $("#newForm #newRL").attr("disabled") == "undefined")
+		info.relation = $("#newForm #newRL").val();
+	else
+		info.relation = $("#newForm #newRL2").val();
+		
+    info.email = $("#newForm #newML").val();
+	
     $.ajax({
       type: 'POST',
       url: WEB_ROOT+'/index.php/contact/create',
@@ -32,9 +62,15 @@ function ContactListCtrl($scope, $http) {
         var obj = JSON.parse(data);
         $scope.data.unshift(obj);
         $scope.$apply();
+		resetForm("newForm");
       }
       
     })
+  }
+  
+  $scope.createNewAndClose = function(){
+	$scope.cancelNew();
+	$scope.createNew();
   }
   
   $scope.deleteContact = function(obj){
@@ -61,21 +97,27 @@ function ContactListCtrl($scope, $http) {
     var cid = obj.id;
     $("#row_"+cid).attr("status", "inEdit");
     var cells = $("#row_"+cid).children();
-    var value = $(cells[0]).text();
-    $(cells[0]).children()[0].style.display="none";
-    $(cells[0]).append($('<input id="editFN" type="text" class="span2" value="'+ value +'" />'));
-    var value = $(cells[1]).text();
-    $(cells[1]).children()[0].style.display="none";
-    $(cells[1]).append($('<input id="editLN" type="text" class="span2" value="'+ value +'" />'));
     var value = $(cells[3]).text();
     $(cells[3]).children()[0].style.display="none";
     $(cells[3]).append($('<input id="editML" type="text" class="span2" value="'+ value +'" />'));
     
     var value = $(cells[2]).text();
     $(cells[2]).children()[0].style.display="none";
-    $('<select id="editRL" class="span2" ></select>').html($("#newRL").html()).appendTo(cells[2])
-                            .find('option[value="'+value+'"]').attr("selected", true);
-    
+	var tempDiv = $('<div id="tempDiv"></div>').appendTo(cells[2]);
+	$("#newForm #newRL").parent().clone().appendTo(tempDiv);
+	$("#newForm #newRL2").parent().clone().appendTo(tempDiv);	
+	initForm("tempDiv");
+	
+	var el = $('option[value="'+value+'"]', tempDiv);
+	if(el.size()>0){
+		el.attr("selected", true);
+	}
+	else {
+		$("#tempDiv #typeRL2").attr("checked", true)
+							  .next().removeAttr("disabled").val(value);
+		$("#tempDiv #typeRL1").next().attr("disabled","true");
+	}
+	
     $(cells[4]).children()[0].style.display="none";
     $(cells[4]).children()[1].style.display="";
   }
@@ -85,7 +127,7 @@ function ContactListCtrl($scope, $http) {
     $("#row_"+cid).removeAttr("status");
     var cells = $("#row_"+cid).children();
     
-    for(var i=0; i<cells.length-1; i++){
+    for(var i=2; i<cells.length-1; i++){
       $(cells[i]).children()[0].style.display="";
       $(cells[i]).children().last().remove();
     }
@@ -96,9 +138,10 @@ function ContactListCtrl($scope, $http) {
   $scope.updateContact = function(obj) {
     var info = {};
     info.id = obj.id;
-    info.firstname = $("#editFN").val();
-    info.lastname = $("#editLN").val();
-    info.relation = $("#editRL").val();
+    if(typeof $("#tempDiv #newRL").attr("disabled") == "undefined")
+		info.relation = $("#tempDiv #newRL").val();
+	else
+		info.relation = $("#tempDiv #newRL2").val();
     info.email = $("#editML").val();
     
     $.ajax({
