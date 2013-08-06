@@ -21,16 +21,18 @@ class UserIdentity extends CUserIdentity
 		$criteria=new CDbCriteria;     
 		$criteria->compare('username',$this->username);      
 		$criteria->compare('password',$this->password);		
-		$data = new CActiveDataProvider('User', array( 'criteria'=>$criteria, )); 
-		
-		if($data->getItemCount()>0){
+		$dataProvider = new CActiveDataProvider('User', array( 'criteria'=>$criteria, )); 
+		$data = $dataProvider->getData();
+
+		if(count($data)>0){
 			$this->errorCode=self::ERROR_NONE;
-			$this->_id = $data->getData()[0]['id'];
+			$this->_id = $data[0]['id'];
 		}
 		else
 			$this->errorCode=self::ERROR_USERNAME_INVALID;
 		
 		return !$this->errorCode;
+
 		
 	/*	$users=array(
 			// username => password
