@@ -145,6 +145,16 @@ input[type="radio"] {
 	border-top:none;
 }
 
+.msgAction{
+	padding-left:10px;
+	display:none;
+}
+
+.msgAction i {
+	cursor: pointer;
+}
+
+/*********************** icons ****************************/
 .userIcon32 {
 	background-image: url("../images/userIcon32.png");
 	width:32px;
@@ -156,5 +166,12 @@ input[type="radio"] {
 	background-image: url("../images/msgIcon16.png");
 	width:16px;
 	height:13px;
+	display:inline-block;
+}
+
+.delIcon10 {
+	background-image: url("../images/delIcon10.png");
+	width:10px;
+	height:10px;
 	display:inline-block;
 }

@@ -26,7 +26,7 @@
 		<tr ng-repeat="d in data" id="row_{{d.id}}">
 		  <td><div>{{d.title}}</div></td>
 		  <td><div>{{d.create_date}}</div></td>
-		  <td><a>edit</a></td>
+		  <td><a >Edit</a> | <a href="" ng-click="deleteMsg(d.id)">Delete</a></td>
 		</tr>
 	  </tbody>
 	</table>

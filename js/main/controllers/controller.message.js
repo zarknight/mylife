@@ -61,19 +61,61 @@ function MessageListCtrl($scope, $http, $routeParams, $location) {
 					for(var i=0; i<contactArr.length; i++){
 						var row = table.insertRow(0);
 						var cell0 = row.insertCell(0);
-						cell0.innerHTML = '<i class="userIcon32"></i><div>'+contactArr[i].name+'</div>';
+						cell0.innerHTML = '<i class="userIcon32"></i><div><span class="hiddenText">'+ contactArr[i].id +'</span>'+contactArr[i].name+'</div>';
 						
 						var messages = contactArr[i].messages;
 						var cell1 = row.insertCell(1);
 						var msgContent = [];
 						for(var j=0; j<messages.length; j++) {
-							msgContent.push('<div><i class="msgIcon16"></i>'+ messages[j].title+'</div>');
+							msgContent.push('<div class="msg"><span class="hiddenText">'+ messages[j].id +'</span><i class="msgIcon16"></i>'+ messages[j].title+
+							                '<span class="msgAction"><i class="delIcon10"></i></span></div>');
 						}
 						cell1.innerHTML = msgContent.join(' ');
 					}
 					
+					$(".msg", table).each(function(){
+						$(this).bind("mouseover", 
+						             function(){ 
+										$(".msgAction",this).css("display","inline");
+							 }).bind("mouseout", 
+							         function(){
+										$(".msgAction",this).css("display","none");
+							 })
+					})
+					
+					$(".delIcon10").bind("click", function(){
+						var msgNode = this.parentNode.parentNode;
+						var msgId = $(".hiddenText", msgNode).text();
+						var tdNode = $(msgNode.parentNode).prev()[0];
+						var contactId = $(".hiddenText", tdNode).text();
+						$.ajax({
+							  type: 'POST',
+							  url: WEB_ROOT+'/index.php/submission/disconnectMessage',
+							  data: {'msgId':msgId, 'contactId':contactId},
+							  success: function(data) {}							  
+							  });
+							  
+						$(msgNode).remove();						
+					})
 				  }
 			})
+	}
+	
+	$scope.deleteMsg = function(mid) {
+		$.ajax({
+			type: 'post',
+			url: WEB_ROOT+'/index.php/submission/delete',
+			data: {id:mid},
+			success: function(data) {
+				for(var i=0;i<$scope.data.length; i++) {
+					if($scope.data[i].id == mid){
+						$scope.data.splice(i,1);
+						$scope.$apply();
+						break;
+					  }
+				}
+			}
+		})
 	}
 	
 }
@@ -170,6 +212,7 @@ function MessageEditCtrl($scope,$routeParams,$http,$location) {
   }
   
   $scope.clickOnContact = function($event){
+	$("#contactsDiv").empty();  //allow only one contact at a time
 	var name = $(".cname",$event.currentTarget).text();
 	var id = $(".hiddenText",$event.currentTarget).text();
 	var item = $('<div class="msg_contact_blc"><span class="hiddenText">'+ id +'</span><a class="msg_contact_btn"><span class="msg_contact_name">'+ name
