@@ -145,6 +145,22 @@ function MessageEditCtrl($scope,$routeParams,$http,$location) {
   $scope.editor = KindEditor.create('#editContent', editorSetting);
 
   $("#nav").hide();
+  
+  init();
+  
+  function init(){
+	$("input[name='typeMsg']").bind('click', function(){
+		var value = $(this).val();
+		$("#textDiv").css("display", value==1?"block":"none");
+		$("#audioDiv").css("display", value==2?"block":"none");
+		$("#videoDiv").css("display", value==3?"block":"none");
+	})
+	
+	$("input[name='typeMsg']").eq(0).attr("checked", "true");
+	$("#audioDiv").css("display", "none");
+	$("#videoDiv").css("display", "none");
+  }
+	
 
   $scope.discard = function(){
     var res = window.confirm("Are you sure to discard the message?");   
@@ -162,7 +178,19 @@ function MessageEditCtrl($scope,$routeParams,$http,$location) {
 		if($.inArray(val, info.to) === -1) info.to.push(val);});
 	
 	info.title = $("#title").val();
-	info.content = encodeURIComponent($scope.editor.html());
+	
+	info.typeMsg =  $("input[type='radio']:checked").val();
+	if(info.typeMsg == "1"){
+		info.content = encodeURIComponent($scope.editor.html());
+	}
+	else if(info.typeMsg =="2"){
+		info.content = document.forms["audioForm"].elements["mediaURL"].value;
+	}
+	else if(info.typeMsg =="3"){
+		info.content = document.forms["audioForm"].elements["mediaURL"].value;
+	}
+	
+	
 	
 	$.ajax({
       type: 'POST',
@@ -233,5 +261,73 @@ function MessageEditCtrl($scope,$routeParams,$http,$location) {
 	$($event.currentTarget).children().css("background-color","#ffffff");
   }
   
+  $scope.uploadAudio = function(){
+  alert();
+  }
+  
 
 }
+
+mylifeApp.directive("uploader", function(){
+			return {
+				restrict: 'E',
+				template: '<div class="uploader">'+
+								'<div>'+
+									'<span class="linkLbl" style="display:none">Choose a file ...</span>'+
+									'<input type="file" name="mfile" onchange="angular.element(this).scope().uploadFile(this)" />'+
+									'<input type="submit" style="display:none" />'+
+								'</div>'+
+								'<div class="linkLbl" style="display:none"><i class="pinIcon16"></i><span class="fileName">name</span><i class="delIcon10"></i><i class="loaderIcon16" ></i><div>'+
+							'</div>',
+				replace: true,
+				scope: {},
+				link: function(scope, elem, attrs, ctrl){												
+						$(".delIcon10", elem).bind('click', function(){
+								$(this).parent().hide();
+								$(this).parent().prev().show();
+								
+								var form = $(this).parents('form')[0];
+								form.reset();
+								form.elements["mediaURL"].value="";
+						})
+						
+						var $form = $(elem).parents('form');
+						$form.attr('action', WEB_ROOT+"/index.php/file/upload");
+								
+						$form.submit(function(){
+							$(this).ajaxSubmit({
+								success: function(data){
+									var result = JSON.parse(data);
+									if(result.error != '0') {
+										alert(result.message);
+										$(".delIcon10", $form[0]).trigger("click");
+										return;
+									}
+									var ch = $(elem.children()[1]).children();
+									ch[2].style.display = "";
+									ch[3].style.display = "none";
+									$form[0].elements["mediaURL"].value=result.url;
+									
+								},
+							})
+						});
+							
+					},
+				controller: ['$scope', function ($scope) {
+						$scope.uploadFile = function(el){							
+							if($(el).val()=='')
+								return false;
+							
+							$(el).next().trigger('click');
+							
+							$(el).parent().hide();
+							var prt = $(el).parent().next().show();
+							var ch = prt.children();
+							ch[2].style.display = "none";
+							ch[3].style.display = "";
+							ch[1].innerHTML = $(el).val();
+						}
+					
+					}],
+			}
+})

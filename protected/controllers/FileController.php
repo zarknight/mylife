@@ -2,7 +2,6 @@
 
 class FileController extends Controller
 {
-	
 	/**
 	 * @return array action filters
 	 */
@@ -33,32 +32,36 @@ class FileController extends Controller
 	}
 
 	public function actionUpload()
-	{
-		$save_path = dirname(dirname(dirname(__FILE__))).'/userlib/';
-		$save_url = '../../userlib/';
+	{  
+		$media_type = array(
+							'image' => array('gif', 'jpg', 'jpeg', 'png', 'bmp'),
+							'audio' => array('mp3'),
+							'video' => array('mp4'),
+						); 
+					
+		$currentUserId = Yii::app()->user->getId();
+		$save_path = dirname(dirname(dirname(__FILE__))).'/userlib/'.$currentUserId.'/';
+		$save_url = '../../userlib/'.$currentUserId.'/';
 		
-		//allowed file type
-		$ext_arr = array(
-						'image' => array('gif', 'jpg', 'jpeg', 'png', 'bmp'),
-						'flash' => array('swf', 'flv'),
-						'media' => array('swf', 'flv', 'mp3', 'wav', 'wma', 'wmv', 'mid', 'avi', 'mpg', 'asf', 'rm', 'rmvb'),
-						'file' => array('doc', 'docx', 'xls', 'xlsx', 'ppt', 'htm', 'html', 'txt', 'zip', 'rar', 'gz', 'bz2'),
-					);
-				
+		$fileName = "imgFile";
+		$allowedType = $media_type['image'];
 		
+		if(isset($_POST["mediaType"])){
+			$fileName = "mfile";
+			if($_POST["mediaType"] == "2")
+				$allowedType = $media_type['audio'];
+			else
+				$allowedType = $media_type['video'];
+		}
 		
-		if ($_FILES["imgFile"]["error"] > 0) {
+		if ($_FILES[$fileName]["error"] > 0) {
 			echo json_encode(array('error' => 1, 'message' => "Error occurs during uploading"));
 			exit;
 		}
 		else {
 		
-			$file_type = explode('.',$_FILES["imgFile"]["name"]);
-			if (in_array($file_type[1], $ext_arr['image']) === false &&
-			    in_array($file_type[1], $ext_arr['flash']) === false &&
-				in_array($file_type[1], $ext_arr['media']) === false &&
-				in_array($file_type[1], $ext_arr['file']) === false) {
-				
+			$file_type = explode('.',$_FILES[$fileName]["name"]);
+			if (in_array($file_type[1], $allowedType) === false) {				
 				echo json_encode(array('error' => 1, 'message' => "this type of file is not allowed to upload"));
 				exit;
 			}
@@ -67,18 +70,19 @@ class FileController extends Controller
 				mkdir($save_path);
 			}
 			
-			if (file_exists($save_path . $_FILES["imgFile"]["name"])) {
-				echo json_encode(array('error' => 1, 'message' => $_FILES["imgFile"]["name"] . " already exists. "));
+			if (file_exists($save_path . $_FILES[$fileName]["name"])) {
+				echo json_encode(array('error' => 1, 'message' => $_FILES[$fileName]["name"] . " already exists. "));
 				exit;
 			  }
 			else  {
-			  move_uploaded_file($_FILES["imgFile"]["tmp_name"],
-								 $save_path . $_FILES["imgFile"]["name"]);
+			  move_uploaded_file($_FILES[$fileName]["tmp_name"],
+								 $save_path . $_FILES[$fileName]["name"]);
 			  }
 		}
 
-		echo json_encode(array('error' => 0, 'url' => $save_url . $_FILES["imgFile"]["name"]));
+		echo json_encode(array('error' => 0, 'url' => $save_url . $_FILES[$fileName]["name"]));
 		
 	}
+	
 
 }

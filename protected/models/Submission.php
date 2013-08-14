@@ -49,7 +49,7 @@ class Submission extends CActiveRecord
 			array('content, description, create_date, update_date', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, userid, eventid, title, content, description, status, submission_date, create_date, update_date', 'safe', 'on'=>'search'),
+			array('id, userid, eventid, title, submissiontype, content, description, status, submission_date, create_date, update_date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -75,6 +75,7 @@ class Submission extends CActiveRecord
 			'userid' => 'Userid',
 			'eventid' => 'Eventid',
 			'title' => 'Title',
+			'submissiontype' => 'Submission Type',
 			'content' => 'Content',
 			'description' => 'Description',
 			'status' => 'Status',
@@ -99,6 +100,7 @@ class Submission extends CActiveRecord
 		$criteria->compare('userid',$this->userid);
 		$criteria->compare('eventid',$this->eventid);
 		$criteria->compare('title',$this->title,true);
+		$criteria->compare('submissiontype',$this->submissiontype,true);
 		$criteria->compare('content',$this->content,true);
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('status',$this->status);

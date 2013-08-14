@@ -23,7 +23,7 @@ class SubmissionController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','save','indexByRecepient'),
+				'actions'=>array('index','view','save','indexByRecepient', 'disconnectMessage'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -84,8 +84,9 @@ class SubmissionController extends Controller
 		if(isset($_POST["id"])) {
 			$submission = Submission::model()->findByPk($_POST["id"]);
 			$submission->title = $_POST["title"];
+			$submission->submissiontype = $_POST["typeMsg"];
 			$submission->content = $_POST["content"];
-			$submission->status = 0;
+			$submission->status = 0;			
 			$submission->update();
 			
 			//delete old contacts of submission
@@ -95,6 +96,7 @@ class SubmissionController extends Controller
 			$submission=new Submission;
 			$submission->userid = Yii::app()->user->getId();
 			$submission->title = $_POST["title"];
+			$submission->submissiontype = $_POST["typeMsg"];
 			$submission->content = $_POST["content"];
 			$submission->status = 0;
 			$submission->save();
@@ -138,6 +140,27 @@ class SubmissionController extends Controller
 
 		echo json_encode($results);
 	
+	}
+	
+	public function actionDisconnectMessage(){
+		$msgId = $_POST['msgId'];
+		$contactId = $_POST['contactId'];
+	
+		$criteria=new CDbCriteria;     
+		$criteria->compare('submissionid', $msgId);
+		$criteria->compare('contactid', $contactId);
+		
+		$sc = SubmissionContact::model()->findAll($criteria);
+		
+		if(count($sc)>0){
+			if($sc[0]->delete()){
+				$msg =Submission::model()->findByPk($msgId);
+				$msg->status = 0;
+				$msg->save();
+			}
+			
+		}
+		
 	}
 	
 	/**
@@ -192,13 +215,10 @@ class SubmissionController extends Controller
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
 	 * @param integer $id the ID of the model to be deleted
 	 */
-	public function actionDelete($id)
+	public function actionDelete()
 	{
-		$this->loadModel($id)->delete();
+		$this->loadModel($_POST["id"])->delete();
 
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
 	

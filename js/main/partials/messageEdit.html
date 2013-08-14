@@ -1,5 +1,5 @@
 <p>
-<button type="button" class="btn buttonGroup" ng-click="send()">Send</button>
+<button type="button" class="btn buttonGroup" ng-click="send()" style="display:none;">Send</button>
 <button type="button" class="btn buttonGroup" ng-click="save()">Save</button>
 <button type="button" class="btn buttonGroup" ng-click="discard()">Discard</button>
 </p>
@@ -38,5 +38,24 @@
 <input id="title" type="text"  style="margin-bottom:0; width:300px;">
 </p>
 
+<div class="msgEditFormDiv" >
+	<input type="radio" name="typeMsg" value="1"/> Text Message
+	<input type="radio" name="typeMsg" value="2"/> Audio Message
+	<input type="radio" name="typeMsg" value="3"/> Video Message
+</div>
 
-<textarea id="editContent" style="width:800px;height:400px;"></textarea>
+<div id="textDiv" >
+	<textarea id="editContent" style="width:800px;height:200px;"></textarea>
+</div>
+
+<div id="audioDiv" class="msgEditFormDiv"  >
+	<form name="audioForm" method="post" enctype="multipart/form-data" >
+		<uploader action="uploader.php"></uploader>
+		<input name="mediaType" value="2"  type="hidden" />
+		<input name="mediaURL" value=""  type="hidden" />
+	</form>
+</div>
+
+<div id="videoDiv" class="msgEditFormDiv" >
+	this is a videoDiv
+</div>
