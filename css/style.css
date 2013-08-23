@@ -221,3 +221,11 @@ input[type="radio"] {
 	height:16px;
 	display:inline-block;	
 }
+
+.profile-btns .btn {
+	margin-right: 5px;
+}
+
+#birthday-editor select {
+	width: 120px;
+}

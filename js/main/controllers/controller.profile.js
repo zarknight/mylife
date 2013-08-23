@@ -1,41 +1,41 @@
 'use strict';
 
 function ProfileCtrl($scope) {
+  var HIDE = 'none', SHOW = '';
 
+  $scope.WEB_ROOT = WEB_ROOT;
+
+  init();
+
+  //------------------------------------------------------------------
   function btns2default() {
-    $scope.profileSaveDisplay = 'none';
-    $scope.profileEditDisplay = 'block';
-    $scope.passwordSaveDisplay = 'none';
-    $scope.passwordChangeDisplay = 'block';
-
-    $scope.profilePanelDisplay = 'block';
-    $scope.passwordPanelDisplay = 'none';
-
-    $scope.cancelDisplay = 'none';
+    $scope.profileSaveDisplay = HIDE;
+    $scope.profileEditDisplay = SHOW;
+    $scope.passwordSaveDisplay = HIDE;
+    $scope.passwordChangeDisplay = SHOW;
+    $scope.profilePanelDisplay = SHOW;
+    $scope.passwordPanelDisplay = HIDE;
+    $scope.cancelDisplay = HIDE;
   }
 
   function btns2editpro() {
-    $scope.profileSaveDisplay = 'block';
-    $scope.profileEditDisplay = 'none';
-    $scope.passwordSaveDisplay = 'none';
-    $scope.passwordChangeDisplay = 'none';
-
-    $scope.profilePanelDisplay = 'block';
-    $scope.passwordPanelDisplay = 'none';
-
-    $scope.cancelDisplay = 'block';
+    $scope.profileSaveDisplay = SHOW;
+    $scope.profileEditDisplay = HIDE;
+    $scope.passwordSaveDisplay = HIDE;
+    $scope.passwordChangeDisplay = HIDE;
+    $scope.profilePanelDisplay = SHOW;
+    $scope.passwordPanelDisplay = HIDE;
+    $scope.cancelDisplay = SHOW;
   }
 
   function btns2changepwd() {
-    $scope.profileSaveDisplay = 'none';
-    $scope.profileEditDisplay = 'none';
-    $scope.passwordSaveDisplay = 'block';
-    $scope.passwordChangeDisplay = 'none';
-
-    $scope.profilePanelDisplay = 'none';
-    $scope.passwordPanelDisplay = 'block';
-
-    $scope.cancelDisplay = 'block';
+    $scope.profileSaveDisplay = HIDE;
+    $scope.profileEditDisplay = HIDE;
+    $scope.passwordSaveDisplay = SHOW;
+    $scope.passwordChangeDisplay = HIDE;
+    $scope.profilePanelDisplay = HIDE;
+    $scope.passwordPanelDisplay = SHOW;
+    $scope.cancelDisplay = SHOW;
 
     $('#profile-pwd-section input').val('');
   }
@@ -46,20 +46,44 @@ function ProfileCtrl($scope) {
 
   function showErrorMsg(el, msg) {
     clearAllErrorMsg();
-    var emsg = $(el).parent().find('.error-msg');
-    emsg.text(msg).show();
+    $(el).parent().find('.error-msg').text(msg).show();
+  }
+
+  function init() {
+    $scope.editorLabelDisplay = SHOW;
+    $scope.editorDisplay = HIDE;
+
+    btns2default();
+
+    $scope.firstname = "Kevin";
+    $scope.lastname = "Zhang";
+    $scope.birthyear = "1983";
+    $scope.birthmonth = "1";
+    $scope.birthday = "22";
+    $scope.email = "zarknight@gmail.com";
   }
 
   //-------------------------------------------------------------------
-  $scope.WEB_ROOT = WEB_ROOT;
-  btns2default();
-
   $scope.saveProfile = function() {
     btns2default();
+    $scope.editorLabelDisplay = SHOW;
+    $scope.editorDisplay = HIDE;
+
   };
 
   $scope.editProfile = function() {
     btns2editpro();
+    $scope.editorLabelDisplay = HIDE;
+    $scope.editorDisplay = SHOW;
+  };
+
+  $scope.changePassword = function() {
+    btns2changepwd();
+  };
+
+  $scope.cancel = function() {
+    clearAllErrorMsg()
+    btns2default();
   };
 
   $scope.savePassword = function() {
@@ -92,15 +116,6 @@ function ProfileCtrl($scope) {
 
       btns2default();
     });
-  };
-
-  $scope.changePassword = function() {
-    btns2changepwd();
-  };
-
-  $scope.cancel = function() {
-    clearAllErrorMsg()
-    btns2default();
   };
 
 }
