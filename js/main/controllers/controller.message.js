@@ -1,33 +1,33 @@
 'use strict';
 
 function MessageListCtrl($scope, $http, $routeParams, $location) {
-  $scope.type = (typeof $routeParams.type != "undefined")? ($routeParams.type):1;
-  
-  $scope.newMessage = function() {
-    $location.url('/createMessage?type=create')
-  }
-  
-  $scope.reloadMessage = function(){
-	if($scope.type ==0) {
-		$http.get(WEB_ROOT+'/index.php/submission/index?type='+$scope.type).success(function(data) {
-		  $scope.data = data;
-		});
-		$("#pane1").show();
-		$("#pane2").hide();
+	$scope.type = (typeof $routeParams.type != "undefined")? ($routeParams.type):1;
+	
+	$scope.reloadMessage = function reloadMessage(){
+		if($scope.type ==0) {
+			$http.get(WEB_ROOT+'/index.php/submission/index?type='+$scope.type).success(function(data) {
+			  $scope.data = data;
+			});
+			$("#pane1").show();
+			$("#pane2").hide();
+		}
+		else {
+			$http.get(WEB_ROOT+'/index.php/contact/groupIndex').success(function(data) {
+				$scope.cdata = data;
+			});
+			
+			$("#pane1").hide();
+			$("#pane2").show();
+		}
 	}
-	else {
-		$http.get(WEB_ROOT+'/index.php/contact/groupIndex').success(function(data) {
-			$scope.cdata = data;
-		});
-		
-		$("#pane1").hide();
-		$("#pane2").show();
-	}
-  }
+	
+	$scope.reloadMessage();
   
-  $scope.reloadMessage();
-  
-  $scope.toggle = function(event, obj){
+	$scope.newMessage = function() {
+		$location.url('/createMessage?type=create')
+	} 
+	
+	$scope.toggle = function(event, obj){
 		var target = event.currentTarget?event.currentTarget:event.srcElement;
 		var containerDiv = target.parentNode.parentNode;
 		var contentDiv = $(containerDiv).children()[1];
@@ -52,22 +52,24 @@ function MessageListCtrl($scope, $http, $routeParams, $location) {
 		var info = {};
 		info.to = obj.values;
 		$.ajax({
-		  type: 'POST',
-		  url: WEB_ROOT+'/index.php/submission/indexByRecepient',
-		  data: info,
-		  success: function(data) {
+			type: 'POST',
+			url: WEB_ROOT+'/index.php/submission/indexByRecepient',
+			data: info,
+			success: function(data) {
 					var contactArr = JSON.parse(data);
 					
 					for(var i=0; i<contactArr.length; i++){
 						var row = table.insertRow(0);
 						var cell0 = row.insertCell(0);
-						cell0.innerHTML = '<i class="userIcon32"></i><div><span class="hiddenText">'+ contactArr[i].id +'</span>'+contactArr[i].name+'</div>';
+						cell0.innerHTML = '<i class="userIcon32"></i><div><span class="hiddenText">'+ 
+										   contactArr[i].id +'</span>'+contactArr[i].name+'</div>';
 						
 						var messages = contactArr[i].messages;
 						var cell1 = row.insertCell(1);
 						var msgContent = [];
 						for(var j=0; j<messages.length; j++) {
-							msgContent.push('<div class="msg"><span class="hiddenText">'+ messages[j].id +'</span><i class="msgIcon16"></i>'+ messages[j].title+
+							msgContent.push('<div class="msg"><span class="hiddenText">'+ messages[j].id +'</span>'+
+											'<i class="msgIcon16" title="preview"></i>'+ messages[j].title+
 							                '<span class="msgAction"><i class="delIcon10"></i></span></div>');
 						}
 						cell1.innerHTML = msgContent.join(' ');
@@ -83,7 +85,7 @@ function MessageListCtrl($scope, $http, $routeParams, $location) {
 							 })
 					})
 					
-					$(".delIcon10").bind("click", function(){
+					$(".delIcon10",table).bind("click", function(){
 						var msgNode = this.parentNode.parentNode;
 						var msgId = $(".hiddenText", msgNode).text();
 						var tdNode = $(msgNode.parentNode).prev()[0];
@@ -97,6 +99,11 @@ function MessageListCtrl($scope, $http, $routeParams, $location) {
 							  
 						$(msgNode).remove();						
 					})
+					
+					$(".msgIcon16",table).bind("click", function(){
+							$scope.previewMsg($(this).prev().text());
+						})
+						
 				  }
 			})
 	}
@@ -118,154 +125,222 @@ function MessageListCtrl($scope, $http, $routeParams, $location) {
 		})
 	}
 	
+	$scope.previewMsg = function(mid){
+		var docHeight = $(document).height();
+		var docWidth = $(document).width();
+		var fmHeight = docHeight*0.6;
+		var fmWidth = docWidth*0.8;
+		
+		$('<div class="mask"></div>').appendTo("body")
+		                             .css({
+										'position':'absolute',
+										'top':'0px',
+										'left':'0px',
+										'z-index':1000,
+										'width':docWidth,
+										'height':docHeight,
+										'background-color':'#eeeeee',
+										'opacity':0.6
+									})
+									
+		$('<div id="viewBox"></div>').appendTo("body")
+									 .css({
+											'position':'absolute',
+											'top':docHeight*0.2,
+											'left':docWidth*0.1,
+											'z-index':1000,
+											'width':fmWidth,
+											'height':fmHeight,
+											'background-color':'#ffffff'
+									}).append($('<iframe src="'+WEB_ROOT+'/index.php/view/index?id='+mid+'" style="border:none" height="'+fmHeight+'" width="'+fmWidth+'">'));
+		
+		$('<button id="closeBtn" class="btn" type="button" style="float:right" ">X</button>').appendTo("#viewBox")
+		                                                                        .css({
+																					position:"absolute",
+																					right:'10px',
+																					top:'10px'																				
+																				}).bind('click', function(){
+																					$(".mask").remove();
+																					$("#viewBox").remove();
+																				})
+																				
+																				
+	
+	}
+	
 }
 
 /**********************************message edit controller**********************************************************************/
 
 var editorSetting = {
-  langType: 'en',
-  resizeType: 0,
-  items: [
-	'source', '|',
-    'fontname', 'fontsize', '|', 
-    'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'removeformat', '|', 
-    'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent','|', 
-    'image', 'link'
-  ],
-  uploadJson: WEB_ROOT+"/index.php/file/upload",
+	langType: 'en',
+	resizeType: 0,
+	items: [
+		'source', '|',
+		'fontname', 'fontsize', '|', 
+		'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'removeformat', '|', 
+		'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent','|', 
+		'image', 'link'
+	],
+	uploadJson: WEB_ROOT+"/index.php/file/upload",
 }
 
 function MessageEditCtrl($scope,$routeParams,$http,$location) {
-  if ($routeParams.type == 'create') {
-    $scope.title = "Create";
-  } else {
-    $scope.title = "Edit";
-  }
+	if ($routeParams.type == 'create') {
+		$scope.title = "Create";
+	} else {
+		$scope.title = "Edit";
+	}
   
-  $scope.editor = KindEditor.create('#editContent', editorSetting);
+	$scope.editor = KindEditor.create('#editContent', editorSetting);
 
-  $("#nav").hide();
+	$("#nav").hide();
+	$("#errorMsg").hide();  
+	init();
   
-  init();
-  
-  function init(){
-	$("input[name='typeMsg']").bind('click', function(){
-		var value = $(this).val();
-		$("#textDiv").css("display", value==1?"block":"none");
-		$("#audioDiv").css("display", value==2?"block":"none");
-		$("#videoDiv").css("display", value==3?"block":"none");
-	})
-	
-	$("input[name='typeMsg']").eq(0).attr("checked", "true");
-	$("#audioDiv").css("display", "none");
-	$("#videoDiv").css("display", "none");
-  }
+	function init(){
+		$("input[name='typeMsg']").bind('click', function(){
+			var value = $(this).val();
+			$("#textDiv").css("display", value==1?"block":"none");
+			$("#audioDiv").css("display", value==2?"block":"none");
+			$("#videoDiv").css("display", value==3?"block":"none");
+		})
+		
+		$("input[name='typeMsg']").eq(0).attr("checked", "true");
+		$("#audioDiv").css("display", "none");
+		$("#videoDiv").css("display", "none");
+	}
 	
 
-  $scope.discard = function(){
-    var res = window.confirm("Are you sure to discard the message?");   
-    if (res) {
-      $("#nav").show();
-      $location.url("/messages");
-    }
-  }
-  
-  $scope.save = function(){
-	var info = {};
-	info.to = [];
-	$(".hiddenText", "#contactsDiv").each(function(){
-		var val = this.innerHTML;
-		if($.inArray(val, info.to) === -1) info.to.push(val);});
-	
-	info.title = $("#title").val();
-	
-	info.typeMsg =  $("input[type='radio']:checked").val();
-	if(info.typeMsg == "1"){
-		info.content = encodeURIComponent($scope.editor.html());
-	}
-	else if(info.typeMsg =="2"){
-		info.content = document.forms["audioForm"].elements["mediaURL"].value;
-	}
-	else if(info.typeMsg =="3"){
-		info.content = document.forms["audioForm"].elements["mediaURL"].value;
-	}
-	
-	
-	
-	$.ajax({
-      type: 'POST',
-      url: WEB_ROOT+'/index.php/submission/save',
-      data: info,
-      success: function(data) {
-		$scope.$apply( function(){
+	$scope.discard = function(){
+		var res = window.confirm("Are you sure to discard the message?");   
+		if (res) {
 			$("#nav").show();
-			$location.url("/messages?type=1");
-			});
-      }
-    })
-    
-  }
+			$location.url("/messages");
+		}
+	}
+   
   
-  $scope.send = function(){
-    $("#nav").show();
-    $location.url("/messages?type=1");
-  }
-  
-  $scope.showContacts = function($event){
-    if( typeof $scope.contactsData == "undefined") {
-		$http.get(WEB_ROOT+'/index.php/contact/index').success(function(data) {
-			$scope.contactsData = data;
+	$scope.save = function(){
+		if(!validateMsg()) {
+			$("#errorMsg").show();
+			return;
+		}
+		
+		var info = {};
+		info.to = [];
+		$(".hiddenText", "#contactsDiv").each(function(){
+			var val = this.innerHTML;
+			if($.inArray(val, info.to) === -1) info.to.push(val);});
+		
+		info.title = $("#title").val();	
+		
+		info.typeMsg =  $("input[type='radio']:checked").val();
+		if(info.typeMsg == "1"){
+			info.content = encodeURIComponent($scope.editor.html());
+		}
+		else if(info.typeMsg =="2"){
+			info.content = document.forms["audioForm"].elements["mediaURL"].value;
+		}
+		else if(info.typeMsg =="3"){
+			info.content = document.forms["videoForm"].elements["mediaURL"].value;
+		}
 			
-			$("#contactListContent").children().bind("mouseover", function(){ $(this).children().css("background-color","#dddddd")})
-				.bind("mouseout", function(){ $(this).children().css("background-color","#ffffff")});
+		$.ajax({
+		  type: 'POST',
+		  url: WEB_ROOT+'/index.php/submission/save',
+		  data: info,
+		  success: function(data) {
+			$scope.$apply( function(){
+				$("#nav").show();
+				$location.url("/messages?type=1");
+				});
+		  }
+		})
+    
+		function validateMsg(){
+			if($("#title").val().length==0){
+				$("#errorMsg").text("Please add subject to your message!");
+				return false;
+			}
+			
+			var typeMsg =  $("input[type='radio']:checked").val();
+			
+			if(typeMsg=="1" && $scope.editor.html().length==0){
+				$("#errorMsg").text("Please add content to your message!");
+				return false;
+			}
+			if(typeMsg=="2" && document.forms["audioForm"].elements["mediaURL"].value.length==0){
+				$("#errorMsg").text("Please add an audio file to your message!");
+				return false;
+			}
+			if(typeMsg=="3" && document.forms["videoForm"].elements["mediaURL"].value.length==0){
+				$("#errorMsg").text("Please add an video file to your message!");
+				return false;
+			}			
+			return true;
+		}
+	}
+ 
+  
+	$scope.send = function(){
+		$("#nav").show();
+		$location.url("/messages?type=1");
+	}
+  
+	$scope.showContacts = function($event){
+		if( typeof $scope.contactsData == "undefined") {
+			$http.get(WEB_ROOT+'/index.php/contact/index').success(function(data) {
+				$scope.contactsData = data;
+				
+				$("#contactListContent").children().bind("mouseover", function(){ $(this).children().css("background-color","#dddddd")})
+					.bind("mouseout", function(){ $(this).children().css("background-color","#ffffff")});
+				$scope.showContactListPop($event);
+			  });
+		}
+		else {
 			$scope.showContactListPop($event);
-		  });
+		}	
 	}
-	else {
-		$scope.showContactListPop($event);
+  
+	$scope.showContactListPop = function($event){
+		$("#contactListPop").show();
+		$("#contactListPop").bind("click", function(event){event.stopPropagation();})
+		$event.cancelBubble = true;
+		$(window).bind("click", $scope.hideContactListPop);
 	}
-	
-  }
   
-  $scope.showContactListPop = function($event){
-	$("#contactListPop").show();
-	$("#contactListPop").bind("click", function(event){event.stopPropagation();})
-	$event.cancelBubble = true;
-	$(window).bind("click", $scope.hideContactListPop);
-  }
+	$scope.hideContactListPop = function(){
+		$("#contactListPop").hide();
+		$(window).unbind("click", $scope.hideContactListPop);
+	}
   
-  $scope.hideContactListPop = function(){
-	$("#contactListPop").hide();
-	$(window).unbind("click", $scope.hideContactListPop);
-  }
+	$scope.clickOnContact = function($event){
+		$("#contactsDiv").empty();  //allow only one contact at a time
+		var name = $(".cname",$event.currentTarget).text();
+		var id = $(".hiddenText",$event.currentTarget).text();
+		var item = $('<div class="msg_contact_blc"><span class="hiddenText">'+ id +'</span><a class="msg_contact_btn"><span class="msg_contact_name">'+ name
+		   +'</span></a><a href="" class="msg_contact_btn"><span class="msg_contact_name"> x </span></a></div>').appendTo("#contactsDiv")
+		$(".msg_contact_name", item).last().on("click", function(event){
+												event.preventDefault();
+												$(item).remove();
+												$("#contactListPop").css("top", $("#contactsDiv").outerHeight());											
+											});
+		$("#contactListPop").css("top", $("#contactsDiv").outerHeight());
+	}
   
-  $scope.clickOnContact = function($event){
-	$("#contactsDiv").empty();  //allow only one contact at a time
-	var name = $(".cname",$event.currentTarget).text();
-	var id = $(".hiddenText",$event.currentTarget).text();
-	var item = $('<div class="msg_contact_blc"><span class="hiddenText">'+ id +'</span><a class="msg_contact_btn"><span class="msg_contact_name">'+ name
-       +'</span></a><a href="" class="msg_contact_btn"><span class="msg_contact_name"> x </span></a></div>').appendTo("#contactsDiv")
-	$(".msg_contact_name", item).last().on("click", function(event){
-											event.preventDefault();
-											$(item).remove();
-											$("#contactListPop").css("top", $("#contactsDiv").outerHeight());											
-										});
-	$("#contactListPop").css("top", $("#contactsDiv").outerHeight());
-  }
+	$scope.mouseoverContact = function($event){
+		$($event.currentTarget).children().css("background-color","#dddddd");
+	}
   
-  $scope.mouseoverContact = function($event){
-	$($event.currentTarget).children().css("background-color","#dddddd");
-  }
+	$scope.mouseoutContact = function($event){
+		$($event.currentTarget).children().css("background-color","#ffffff");
+	}
   
-  $scope.mouseoutContact = function($event){
-	$($event.currentTarget).children().css("background-color","#ffffff");
-  }
+	$scope.uploadAudio = function(){
+		alert();
+	}
   
-  $scope.uploadAudio = function(){
-  alert();
-  }
-  
-
 }
 
 mylifeApp.directive("uploader", function(){

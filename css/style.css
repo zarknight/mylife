@@ -150,7 +150,7 @@ input[type="radio"] {
 	display:none;
 }
 
-.msgAction i {
+.msg i {
 	cursor: pointer;
 }
 
@@ -179,6 +179,11 @@ input[type="radio"] {
 .linkLbl {
 	color: #0088CC;
 	cursor:pointer;
+}
+
+.errorMsg {
+	color:#ff0000;
+	padding-bottom:10px;
 }
 
 /*********************** icons ****************************/

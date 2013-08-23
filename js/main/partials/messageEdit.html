@@ -6,6 +6,8 @@
 
 <hr style="width:800px"/>
 
+<div class="errorMsg" id="errorMsg"></div>
+
 <div style="position:relative">
 	<div style="display:inline-block; width:60px; vertical-align:top">
 		<button class="btn btn-link" style="padding-left:0" ng-click="showContacts($event)">To: </button>
@@ -33,6 +35,7 @@
 				</ul>
 	</div>
 </div>
+
 <p>
 <div style="display:inline-block; width:60px;">Subject: </div>
 <input id="title" type="text"  style="margin-bottom:0; width:300px;">
@@ -49,6 +52,7 @@
 </div>
 
 <div id="audioDiv" class="msgEditFormDiv"  >
+	<div style="color:#0088CC; margin-bottom:10px; padding-left:5px;">Allowed file format: mp3</div>
 	<form name="audioForm" method="post" enctype="multipart/form-data" >
 		<uploader action="uploader.php"></uploader>
 		<input name="mediaType" value="2"  type="hidden" />
@@ -57,5 +61,10 @@
 </div>
 
 <div id="videoDiv" class="msgEditFormDiv" >
-	this is a videoDiv
+	<div style="color:#0088CC; margin-bottom:10px; padding-left:5px;">Allowed file format: mp4</div>
+	<form name="videoForm" method="post" enctype="multipart/form-data" >
+		<uploader action="uploader.php"></uploader>
+		<input name="mediaType" value="3"  type="hidden" />
+		<input name="mediaURL" value=""  type="hidden" />
+	</form>
 </div>

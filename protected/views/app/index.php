@@ -20,6 +20,7 @@
 					<li><a href="#/messages">My Messages</a></li>
 					<li><a href="#/contacts">My Contacts</a></li>
 					<li><a href="#/profile">My Profile</a></li>
+					<li><a href="#/event">My Events</a></li>
 					<li class="divider"></li>
 					<li><a href="<?php echo $this->createUrl('site/logout')?>">Logout</a></li>
 				</ul>
