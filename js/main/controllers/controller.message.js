@@ -80,9 +80,9 @@ function MessageListCtrl($scope, $http, $routeParams, $location) {
 									$(".msgAction",this).css("display","none");
 							}).on("click", ".delIcon10", function(){
 								var trDom = $(this).parents("tr");
-								var ids = $(".hiddenText", trDom);
-								var contactId = $(ids[0]).text();
-								var msgId = $(ids[1]).text();
+								var contactId = $(".hiddenText", trDom).first().text();
+								var msgDom = $(this).parents(".msg");
+								var msgId = $(".hiddenText", msgDom).text();
 								
 								$.ajax({
 									  type: 'POST',
@@ -91,11 +91,13 @@ function MessageListCtrl($scope, $http, $routeParams, $location) {
 									  success: function(data) {}							  
 									  });
 									  
-								$(this).parents(".msg").remove();								
+								msgDom.remove();								
 							}).on("click", ".msgIcon16", function(){
 								var trDom = $(this).parents("tr");
-								var ids = $(".hiddenText",trDom);
-								$scope.previewMsg($(ids[0]).text(), $(ids[1]).text());
+								var contactId = $(".hiddenText", trDom).first().text();
+								var msgDom = $(this).parents(".msg");
+								var msgId = $(".hiddenText", msgDom).text();
+								$scope.previewMsg(contactId, msgId);
 							})
 						
 				  }
