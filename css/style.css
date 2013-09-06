@@ -186,6 +186,24 @@ input[type="radio"] {
 	padding-bottom:10px;
 }
 
+.msgView{
+	font-family: cursive;
+	color: #317EAC;
+}
+
+.div-center {
+	margin: 0 auto;
+	float:none;
+}
+
+.profile-btns .btn {
+	margin-right: 5px;
+}
+
+#birthday-editor select {
+	width: 120px;
+}
+
 /*********************** icons ****************************/
 .userIcon32 {
 	background-image: url("../images/userIcon32.png");
@@ -220,12 +238,4 @@ input[type="radio"] {
 	width:16px;
 	height:16px;
 	display:inline-block;	
-}
-
-.profile-btns .btn {
-	margin-right: 5px;
-}
-
-#birthday-editor select {
-	width: 120px;
 }

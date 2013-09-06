@@ -74,35 +74,29 @@ function MessageListCtrl($scope, $http, $routeParams, $location) {
 						}
 						cell1.innerHTML = msgContent.join(' ');
 					}
-					
-					$(".msg", table).each(function(){
-						$(this).bind("mouseover", 
-						             function(){ 
-										$(".msgAction",this).css("display","inline");
-							 }).bind("mouseout", 
-							         function(){
-										$(".msgAction",this).css("display","none");
-							 })
-					})
-					
-					$(".delIcon10",table).bind("click", function(){
-						var msgNode = this.parentNode.parentNode;
-						var msgId = $(".hiddenText", msgNode).text();
-						var tdNode = $(msgNode.parentNode).prev()[0];
-						var contactId = $(".hiddenText", tdNode).text();
-						$.ajax({
-							  type: 'POST',
-							  url: WEB_ROOT+'/index.php/submission/disconnectMessage',
-							  data: {'msgId':msgId, 'contactId':contactId},
-							  success: function(data) {}							  
-							  });
-							  
-						$(msgNode).remove();						
-					})
-					
-					$(".msgIcon16",table).bind("click", function(){
-							$scope.previewMsg($(this).prev().text());
-						})
+					$(table).on("mouseover", ".msg", function(){
+									$(".msgAction",this).css("display","inline");							
+							}).on("mouseout", ".msg", function(){
+									$(".msgAction",this).css("display","none");
+							}).on("click", ".delIcon10", function(){
+								var trDom = $(this).parents("tr");
+								var ids = $(".hiddenText", trDom);
+								var contactId = $(ids[0]).text();
+								var msgId = $(ids[1]).text();
+								
+								$.ajax({
+									  type: 'POST',
+									  url: WEB_ROOT+'/index.php/submission/disconnectMessage',
+									  data: {'msgId':msgId, 'contactId':contactId},
+									  success: function(data) {}							  
+									  });
+									  
+								$(this).parents(".msg").remove();								
+							}).on("click", ".msgIcon16", function(){
+								var trDom = $(this).parents("tr");
+								var ids = $(".hiddenText",trDom);
+								$scope.previewMsg($(ids[0]).text(), $(ids[1]).text());
+							})
 						
 				  }
 			})
@@ -125,7 +119,7 @@ function MessageListCtrl($scope, $http, $routeParams, $location) {
 		})
 	}
 	
-	$scope.previewMsg = function(mid){
+	$scope.previewMsg = function(cid,mid){
 		var docHeight = $(document).height();
 		var docWidth = $(document).width();
 		var fmHeight = docHeight*0.6;
@@ -152,13 +146,13 @@ function MessageListCtrl($scope, $http, $routeParams, $location) {
 											'width':fmWidth,
 											'height':fmHeight,
 											'background-color':'#ffffff'
-									}).append($('<iframe src="'+WEB_ROOT+'/index.php/view/index?id='+mid+'" style="border:none" height="'+fmHeight+'" width="'+fmWidth+'">'));
+									}).append($('<iframe src="'+WEB_ROOT+'/index.php/view/index?id='+mid+'&cid='+cid+'" border="0" frameBorder="0" height="'+fmHeight+'" width="'+fmWidth+'">'));
 		
-		$('<button id="closeBtn" class="btn" type="button" style="float:right" ">X</button>').appendTo("#viewBox")
+		$('<button id="closeBtn" class="btn" type="button" >X</button>').appendTo($("#viewBox")[0])
 		                                                                        .css({
 																					position:"absolute",
 																					right:'10px',
-																					top:'10px'																				
+																					top:'10px',																				
 																				}).bind('click', function(){
 																					$(".mask").remove();
 																					$("#viewBox").remove();

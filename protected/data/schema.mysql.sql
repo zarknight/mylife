@@ -33,6 +33,7 @@ create table tbl_submission (
   userid integer not null,
   eventid integer,
   title varchar(128),
+  submissiontype int(1) not null,
   content text,
   description text,
   status int(1),

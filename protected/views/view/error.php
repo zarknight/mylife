@@ -10,11 +10,10 @@
 		</div>
 	</div>
 </div>
-     
-<div class="container-fluid" ng-controller="MainCtrl">
-	<div class="row-fliud">
+
+<div class="container msgView" >
+	<div class="well span10" style="margin:0 auto;float:none;">
 		
-			The message is not found!
-			
+		<div class="text-center" ><h3>The message is not found!</h3></div>
 	</div>
 </div>

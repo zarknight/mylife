@@ -20,7 +20,7 @@
 					<li><a href="#/messages">My Messages</a></li>
 					<li><a href="#/contacts">My Contacts</a></li>
 					<li><a href="#/profile">My Profile</a></li>
-					<li><a href="#/event">My Events</a></li>
+					<li><a href="#/events">My Events</a></li>
 					<li class="divider"></li>
 					<li><a href="<?php echo $this->createUrl('site/logout')?>">Logout</a></li>
 				</ul>
@@ -40,5 +40,6 @@
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/main/controllers/controller.contact.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/main/controllers/controller.message.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/main/controllers/controller.profile.js"></script>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/main/controllers/controller.event.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/main/controllers/controllers.js"></script>
 <!-- ***************** app scripts end ******************* -->
